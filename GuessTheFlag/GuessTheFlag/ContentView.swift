@@ -7,6 +7,20 @@
 
 import SwiftUI
 
+struct FlagTitle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .foregroundColor(.white)
+            .font(.largeTitle.bold())
+    }
+}
+
+extension View {
+    func flagTitle() -> some View {
+        modifier(FlagTitle())
+    }
+}
+
 struct ContentView: View {
     @State private var showingScore = false
     @State private var showingFinalScore = false
@@ -14,8 +28,25 @@ struct ContentView: View {
     @State private var totalScore = 0
     @State private var gameStage = 0
     
-    @State private var counries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Spain", "UK", "US"].shuffled()
+    @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Spain", "UK", "US"].shuffled()
     @State private var correctAnswer = Int.random(in: 1...2)
+    
+    struct FlagImage: View {
+        var number: Int
+        var countries: [String]
+        
+        init(_ number: Int, _ countries: [String]) {
+            self.number = number
+            self.countries = countries
+        }
+        
+        var body: some View {
+            Image(countries[number])
+                .renderingMode(.original)
+                .clipShape(Capsule())
+                .shadow(radius: 5)
+        }
+    }
     
     var body: some View {
         ZStack {
@@ -25,8 +56,7 @@ struct ContentView: View {
                 Spacer()
                 
                 Text("Guess the Flag")
-                    .foregroundColor(.white)
-                    .font(.largeTitle.bold())
+                    .flagTitle()
                 
                 VStack {
                     VStack(spacing: 15) {
@@ -35,7 +65,7 @@ struct ContentView: View {
                                 .foregroundStyle(.secondary)
                                 .font(.subheadline.weight(.heavy))
                             
-                            Text(counries[correctAnswer])
+                            Text(countries[correctAnswer])
                                 .font(.largeTitle.weight(.semibold))
                         }
                         
@@ -43,10 +73,7 @@ struct ContentView: View {
                             Button {
                                 flagTapped(number)
                             } label: {
-                                Image(counries[number])
-                                    .renderingMode(.original)
-                                    .clipShape(Capsule())
-                                    .shadow(radius: 5)
+                                FlagImage(number, countries)
                             }
                         }
                     }
@@ -61,19 +88,18 @@ struct ContentView: View {
                 Spacer()
                 
                 Text("Score: \(totalScore)")
-                    .foregroundColor(.white)
-                    .font(.title.bold())
+                    .flagTitle()
                 
                 Spacer()
             }
+            .alert(scoreTitle, isPresented: $showingScore) {
+                Button("Continue", action: askQuestion)
+            } message: {
+                Text("Your score is \(totalScore)")
+            }
         }
         .ignoresSafeArea()
-        .alert(scoreTitle, isPresented: $showingScore) {
-            Button("Continue", action: askQuestion)
-        } message: {
-            Text("Your score is \(totalScore)")
-        }
-        .alert("The end, your final score is \(totalScore)/8", isPresented: $showingFinalScore) {
+        .alert("The end, your final score is \(totalScore)/\(gameStage)", isPresented: $showingFinalScore) {
             Button("Restart", action: restart)
         }
     }
@@ -83,20 +109,19 @@ struct ContentView: View {
             scoreTitle = "Correct"
             totalScore += 1
         } else {
-            scoreTitle = "Wrong! That’s the flag of \(counries[number])"
+            scoreTitle = "Wrong! That’s the flag of \(countries[number])"
         }
         
+        gameStage += 1
         showingScore = true
         
-        gameStage += 1
-        
-        if gameStage == 3 {
+        if gameStage == 4 {
             showingFinalScore = true
         }
     }
     
     func askQuestion() {
-        counries.shuffle()
+        countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
     }
     

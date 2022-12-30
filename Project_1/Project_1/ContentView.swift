@@ -70,6 +70,7 @@ struct ContentView: View {
                 Section {
                     Text(totalPerCheck, format:
                         .currency(code: localCurrency))
+                        .foregroundColor(tipPercentage == 0 ? .red : nil)
                 }
             }
             .navigationTitle("WeSplit")
