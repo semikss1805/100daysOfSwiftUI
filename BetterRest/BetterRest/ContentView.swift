@@ -83,7 +83,11 @@ struct ContentView: View {
                 }
                 
                 Section {
+                    
                     Text(calculateBadTime)
+
+                        .font(.title3.bold())
+                    
                 }
             }
             .navigationTitle("Better rest")
