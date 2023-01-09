@@ -7,11 +7,14 @@
 
 import Foundation
 import Moya
+import SwiftUI
 
 public enum OpenWeather {
     static private var appid = "a89922672677afc87a54a586fa01e9e6"
     
-    case weather(lat: Double, lon: Double, date: Int)
+    case forecast(lat: Double, lon: Double)
+    
+    case current(lat: Double, lon: Double)
 }
 
 extension OpenWeather: TargetType {
@@ -21,29 +24,39 @@ extension OpenWeather: TargetType {
     
     public var path: String {
         switch self {
-        case .weather(lat: _, lon: _ , date: _):
+        case .forecast(lat: _, lon: _):
+            return "/data/2.5/forecast"
+            
+        case .current(lat: _, lon: _):
             return "/data/2.5/weather"
         }
     }
     
     public var method: Moya.Method {
         switch self {
-        case .weather(lat: _, lon: _, date: _):
+        case .forecast(lat: _, lon: _):
+            return .get
+            
+        case .current(lat: _, lon: _):
             return .get
         }
     }
     
-    public var sampleData: Data {
-        return Data()
-    }
-    
     public var task: Task {
-        switch self{
-        case .weather(lat: let lat, lon: let lon, date: let date):
+        switch self {
+        case .forecast(lat: let lat, lon: let lon):
             return .requestParameters(
                 parameters: [
                     "APPID": OpenWeather.appid,
-                    "dt": date,
+                    "lat": lat,
+                    "lon": lon,
+                    "units": "metric"],
+                encoding: URLEncoding.default)
+            
+        case .current(lat: let lat, lon: let lon):
+            return .requestParameters(
+                parameters: [
+                    "APPID": OpenWeather.appid,
                     "lat": lat,
                     "lon": lon,
                     "units": "metric"],
@@ -52,7 +65,6 @@ extension OpenWeather: TargetType {
     }
     
     public var headers: [String : String]? {
-        return ["Content-Type": "application/json", "APPID": "\(OpenWeather.appid)"]
+        return ["Content-Type": "application/json"]
     }
-    
 }

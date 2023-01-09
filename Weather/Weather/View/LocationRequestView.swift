@@ -13,12 +13,11 @@ struct LocationRequestView: View {
             Color(.systemBlue).ignoresSafeArea()
             
             VStack {
-                Spacer()
-                
                 Image(systemName: "paperplane.circle.fill")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 200, height: 200)
+                    .padding(.top, 64)
                     .padding()
                 
                 Text("Start sharing your location with us")
@@ -26,7 +25,6 @@ struct LocationRequestView: View {
                     .multilineTextAlignment(.center)
                     .padding()
                 
-                Spacer()
                 Spacer()
                 
                 Button {
@@ -38,12 +36,10 @@ struct LocationRequestView: View {
                         .font(.headline)
                         .foregroundColor(Color(.systemBlue))
                 }
-                .frame(width: UIScreen.main.bounds.width)
-                .padding(.horizontal, -32)
+                .frame(maxWidth: .infinity)
                 .background(.white)
                 .clipShape(Capsule())
-                .padding(.bottom,32)
-                
+                .padding(32)
             }
             .foregroundColor(.white)
         }
@@ -52,6 +48,8 @@ struct LocationRequestView: View {
 
 struct LocationRequestView_Previews: PreviewProvider {
     static var previews: some View {
-        LocationRequestView()
+        Group {
+            LocationRequestView()
+        }
     }
 }
