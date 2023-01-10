@@ -54,7 +54,7 @@ struct ContentView: View {
     @ObservedObject var locationManager = LocationManager.shared
     
     @State private var isLoading = true
-
+    
     var body: some View {
         Group {
             if locationManager.userLocation == nil {
@@ -93,6 +93,7 @@ struct ContentView: View {
                                 ForEach(weatherForecast) { forecast in
                                     VStack(alignment: .center, spacing: 10) {
                                         Image(forecast.weather!)
+                                        // do not use force unwrap
                                         Text(forecast.dt!)
                                             .font(.title3.bold())
                                     }
@@ -114,13 +115,14 @@ struct ContentView: View {
         }
     }
     
+    // move this logic to another file, read about mvp, mvvm, viper
     private func start() {
-        let lat = locationManager.userLocation!.coordinate.latitude
-        let lon = locationManager.userLocation!.coordinate.longitude
+        let lat = locationManager.userLocation.coordinate.latitude
+        let lon = locationManager.userLocation.coordinate.longitude
         
         provider.request(.current(lat: lat, lon: lon)) { result in
             switch result {
-                case .success(let response):
+            case .success(let response):
                 do {
                     let currentResponse = try response.map(CurrentResponse.self)
                     
@@ -138,8 +140,10 @@ struct ContentView: View {
                         currentWeather[0].dt = day
                     }
                     
+                    // split core data logic and network manager
                     try managedObjectContext.save()
                     
+                    // use debugPrint instead of print
                     print(currentWeather.count)
                     for weather in currentWeather{
                         print(weather)
@@ -147,15 +151,15 @@ struct ContentView: View {
                 } catch {
                     print ("fail to map")
                 }
-                case .failure(let error):
-                    print(error.errorDescription ?? "Unknown error")
-                }
-
+            case .failure(let error):
+                print(error.errorDescription ?? "Unknown error")
+            }
+            
         }
         
         provider.request(.forecast(lat: lat, lon: lon)) { result in
             switch result {
-                case .success(let response):
+            case .success(let response):
                 do {
                     let forecastResponse = try response.map(ForecastResponse.self)
                     
@@ -190,9 +194,9 @@ struct ContentView: View {
                 } catch {
                     print ("fail to map")
                 }
-                case .failure(let error):
-                    print(error.errorDescription ?? "Unknown error")
-                }
+            case .failure(let error):
+                print(error.errorDescription ?? "Unknown error")
+            }
         }
     }
 }
