@@ -17,51 +17,52 @@ public enum OpenWeather {
     case current(lat: Double, lon: Double)
 }
 
+struct Constant {
+    static let baseURL = "https://api.openweathermap.org"
+}
+
+enum Endpoint: String {
+    case forecast = ""
+    // ...
+}
+
 extension OpenWeather: TargetType {
     public var baseURL: URL {
-        return URL(string: "https://api.openweathermap.org")!
+        return URL(string: Constant.baseURL)!
     }
     
     public var path: String {
         switch self {
-        case .forecast(lat: _, lon: _):
+        case .forecast:
             return "/data/2.5/forecast"
             
-        case .current(lat: _, lon: _):
+        case .current:
             return "/data/2.5/weather"
         }
     }
     
     public var method: Moya.Method {
         switch self {
-        case .forecast(lat: _, lon: _):
-            return .get
-            
-        case .current(lat: _, lon: _):
+        case .forecast, .current:
             return .get
         }
     }
     
     public var task: Task {
         switch self {
-        case .forecast(lat: let lat, lon: let lon):
+        case .forecast(lat: let lat, lon: let lon), .current(lat: let lat, lon: let lon):
             return .requestParameters(
                 parameters: [
-                    "APPID": OpenWeather.appid,
+                    RequestParamsKey.appID.rawValue: OpenWeather.appid,
                     "lat": lat,
                     "lon": lon,
                     "units": "metric"],
-                encoding: URLEncoding.default)
-            
-        case .current(lat: let lat, lon: let lon):
-            return .requestParameters(
-                parameters: [
-                    "APPID": OpenWeather.appid,
-                    "lat": lat,
-                    "lon": lon,
-                    "units": "metric"],
-                encoding: URLEncoding.default)
-        }
+                encoding: URLEncoding.default)}
+    }
+    
+    enum RequestParamsKey: String {
+        case appID = ""
+        // ...
     }
     
     public var headers: [String : String]? {

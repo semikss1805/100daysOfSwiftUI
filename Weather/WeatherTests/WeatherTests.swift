@@ -8,6 +8,8 @@
 import XCTest
 @testable import Weather
 
+// Quick, Nimble, SwiftyMocky
+
 class WeatherTests: XCTestCase {
 
     override func setUpWithError() throws {
