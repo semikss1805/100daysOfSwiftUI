@@ -53,7 +53,7 @@ extension OpenWeather: TargetType {
         case .forecast(lat: let lat, lon: let lon), .current(lat: let lat, lon: let lon):
             return .requestParameters(
                 parameters: [
-                    RequestParamsKey.appID.rawValue: OpenWeather.appid,
+                    "APPID": OpenWeather.appid,
                     "lat": lat,
                     "lon": lon,
                     "units": "metric"],

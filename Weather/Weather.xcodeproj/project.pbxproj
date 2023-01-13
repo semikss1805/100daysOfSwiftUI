@@ -14,6 +14,8 @@
 		A635B0C829655BA500C1BBCA /* OpenWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = A635B0C729655BA500C1BBCA /* OpenWeather.swift */; };
 		A635B0F7296BF93700C1BBCA /* WeatherModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A635B0F5296BF93700C1BBCA /* WeatherModel.xcdatamodeld */; };
 		A635B0F9296C043000C1BBCA /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = A635B0F8296C043000C1BBCA /* Persistence.swift */; };
+		A635B0FB297147C800C1BBCA /* OpenWeatherMnager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A635B0FA297147C500C1BBCA /* OpenWeatherMnager.swift */; };
+		A635B0FE2971516000C1BBCA /* WeatherDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A635B0FD2971516000C1BBCA /* WeatherDataManager.swift */; };
 		A68025B32964655800C73753 /* WeatherApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A68025B22964655800C73753 /* WeatherApp.swift */; };
 		A68025B52964655800C73753 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A68025B42964655800C73753 /* ContentView.swift */; };
 		A68025B72964655C00C73753 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A68025B62964655C00C73753 /* Assets.xcassets */; };
@@ -53,6 +55,8 @@
 		A635B0C729655BA500C1BBCA /* OpenWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeather.swift; sourceTree = "<group>"; };
 		A635B0F6296BF93700C1BBCA /* WeatherModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WeatherModel.xcdatamodel; sourceTree = "<group>"; };
 		A635B0F8296C043000C1BBCA /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		A635B0FA297147C500C1BBCA /* OpenWeatherMnager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherMnager.swift; sourceTree = "<group>"; };
+		A635B0FD2971516000C1BBCA /* WeatherDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataManager.swift; sourceTree = "<group>"; };
 		A68025AF2964655800C73753 /* Weather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A68025B22964655800C73753 /* WeatherApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherApp.swift; sourceTree = "<group>"; };
 		A68025B42964655800C73753 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -140,8 +144,19 @@
 			isa = PBXGroup;
 			children = (
 				A635B0C729655BA500C1BBCA /* OpenWeather.swift */,
+				A635B0FA297147C500C1BBCA /* OpenWeatherMnager.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		A635B0FC2971512B00C1BBCA /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				A635B0F5296BF93700C1BBCA /* WeatherModel.xcdatamodeld */,
+				A635B0F8296C043000C1BBCA /* Persistence.swift */,
+				A635B0FD2971516000C1BBCA /* WeatherDataManager.swift */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 		A68025A62964655800C73753 = {
@@ -171,9 +186,8 @@
 			children = (
 				A635B0ED296700BF00C1BBCA /* View */,
 				A68025B22964655800C73753 /* WeatherApp.swift */,
-				A635B0F5296BF93700C1BBCA /* WeatherModel.xcdatamodeld */,
-				A635B0F8296C043000C1BBCA /* Persistence.swift */,
 				A68025B62964655C00C73753 /* Assets.xcassets */,
+				A635B0FC2971512B00C1BBCA /* Data */,
 				A635B0EE2967010F00C1BBCA /* Location */,
 				A635B0EF2967013500C1BBCA /* Network */,
 				A68025B82964655C00C73753 /* Preview Content */,
@@ -450,6 +464,8 @@
 				A635B0F9296C043000C1BBCA /* Persistence.swift in Sources */,
 				A68025B52964655800C73753 /* ContentView.swift in Sources */,
 				A635B0C029647B5200C1BBCA /* LocationRequestView.swift in Sources */,
+				A635B0FE2971516000C1BBCA /* WeatherDataManager.swift in Sources */,
+				A635B0FB297147C800C1BBCA /* OpenWeatherMnager.swift in Sources */,
 				A68025B32964655800C73753 /* WeatherApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
