@@ -11,14 +11,15 @@ import CoreData
 final class WeatherDataManager {
     private let managedObjectContext = PersistenceController.shared.container.viewContext
     
+    private let openWeatherManager = OpenWeatherManager()
+    
     init() { }
     
-    func saveCurrentWeather(currentResponse: OpenWeatherManager.CurrentResponse) {
-        guard let currentWeather = try? managedObjectContext.fetch(CurrentWeather.fetchRequest())
-        else {
-            debugPrint("Fetch failed")
-            return
-        }
+    private func updateLocalCurrentWeather() async throws {
+        let currentWeather = try managedObjectContext.fetch(CurrentWeather.fetchRequest())
+        
+        let currentResponse = try await openWeatherManager.getCurrentResponse()
+        
         
         let date = Date(timeIntervalSince1970: TimeInterval(currentResponse.dt))
         let day = date.formatted(date: .complete, time: .shortened)
@@ -45,12 +46,10 @@ final class WeatherDataManager {
         debugPrint(currentWeather.count)
     }
 
-    func saveWeatherForecast(forecastResponse: OpenWeatherManager.ForecastResponse) {
-        guard let weatherForecast = try? managedObjectContext.fetch(WeatherForecast.fetchRequest())
-        else {
-            debugPrint("Fetch failed")
-            return
-        }
+    private func updateLocalWeatherForecast() async throws {
+        let weatherForecast = try managedObjectContext.fetch(WeatherForecast.fetchRequest())
+        
+        let forecastResponse = try await openWeatherManager.getForecastResponse()
         
         var fiveForecastResponse = [forecastResponse.list[7]]
         for i in 2...5 {
@@ -82,6 +81,11 @@ final class WeatherDataManager {
         }
     
         debugPrint(weatherForecast.count)
+    }
+    
+    func updateLocalData() async throws {
+        try await updateLocalCurrentWeather()
+        try await updateLocalWeatherForecast()
     }
 
     private func contextSave(errorMessage: String = "unknownError") {

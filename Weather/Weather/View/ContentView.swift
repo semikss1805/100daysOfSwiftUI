@@ -21,65 +21,70 @@ struct ContentView: View {
                   animation: .default
     ) var weatherForecast: FetchedResults<WeatherForecast>
     
-    @ObservedObject var openWeatherManager = OpenWeatherManager.shared
-    
     @ObservedObject var locationManager = LocationManager.shared
     
+    let weatherDataManager = WeatherDataManager()
+    
+    @State private var isUpdatingCompleted = false
+    
     var body: some View {
-        Group {
-            if locationManager.userLocation == nil {
-                LocationRequestView()
-            } else {
+        if locationManager.userLocation == nil {
+            LocationRequestView()
+        } else {
+            VStack {
+                if !isUpdatingCompleted {
+                    Text("Connection...")
+                        .font(.title.bold())
+                        .foregroundColor(.red)
+                        .frame(maxWidth: .infinity)
+                        .background(.thinMaterial)
+                }
+                
                 VStack {
-                    if !openWeatherManager.isUpdatingCompleted {
-                        Text("Connection...")
-                            .font(.title.bold())
-                            .foregroundColor(.red)
-                            .frame(maxWidth: .infinity)
-                            .background(.thinMaterial)
-                    }
-                    
                     VStack {
-                        VStack {
-                            Image(currentWeather.last?.weather ?? "")
-                                .scaleEffect(5)
-                        }
-                        .frame(height: 200, alignment: .center)
-                        Text("\(currentWeather.last?.name ?? ""), \(currentWeather.last?.day ?? "")")
-                            .font(.title2.bold())
-                            .padding()
-                            .background(.thinMaterial)
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
-                            .padding()
+                        Image(currentWeather.last?.weather ?? "")
+                            .scaleEffect(5)
                     }
-                    .padding(.top, 32)
-                    
-                    Spacer()
-                    
-                    ScrollView(.horizontal) {
-                        HStack(alignment: .center, spacing: 40) {
-                            
-                            if weatherForecast.count == 5 {
-                                ForEach(weatherForecast) { forecast in
-                                    VStack(alignment: .center, spacing: 10) {
-                                        Image(forecast.weather ?? "")
-                                        // do not use force unwrap
-                                        Text(forecast.day ?? "")
-                                            .font(.title3.bold())
-                                    }
-                                    .frame(width: 120)
+                    .frame(height: 200, alignment: .center)
+                    Text("\(currentWeather.last?.name ?? ""), \(currentWeather.last?.day ?? "")")
+                        .font(.title2.bold())
+                        .padding()
+                        .background(.thinMaterial)
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .padding()
+                }
+                .padding(.top, 32)
+                
+                Spacer()
+                
+                ScrollView(.horizontal) {
+                    HStack(alignment: .center, spacing: 40) {
+                        
+                        if weatherForecast.count == 5 {
+                            ForEach(weatherForecast) { forecast in
+                                VStack(alignment: .center, spacing: 10) {
+                                    Image(forecast.weather ?? "")
+                                    // do not use force unwrap
+                                    Text(forecast.day ?? "")
+                                        .font(.title3.bold())
                                 }
+                                .frame(width: 120)
                             }
                         }
-                        .padding()
-                        .padding(.horizontal, 20)
-                        .frame(maxWidth: .infinity, maxHeight: 100, alignment: .center)
                     }
-                    
-                    Spacer()
+                    .padding()
+                    .padding(.horizontal, 20)
+                    .frame(maxWidth: .infinity, maxHeight: 100, alignment: .center)
                 }
-                .onAppear{
-                    openWeatherManager.updateLocalWeatherData()
+                
+                Spacer()
+            }
+            .task {
+                do {
+                    try await weatherDataManager.updateLocalData()
+                    isUpdatingCompleted = true
+                } catch {
+                    debugPrint("update failed")
                 }
             }
         }

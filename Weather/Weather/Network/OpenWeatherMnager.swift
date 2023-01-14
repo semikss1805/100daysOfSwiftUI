@@ -7,16 +7,12 @@
 
 import Foundation
 import Moya
-import SwiftUI
+import CoreLocation
 
-final class OpenWeatherManager: ObservableObject {
+final class OpenWeatherManager {
     private var provider = MoyaProvider<OpenWeather>(plugins: [NetworkLoggerPlugin()])
     
     private var locationManager = LocationManager.shared
-    
-    private var weatherDataManager = WeatherDataManager()
-    
-    @Published var isUpdatingCompleted = false
     
     struct ForecastResponse: Codable {
         let list: [HourlyResponse]
@@ -37,64 +33,57 @@ final class OpenWeatherManager: ObservableObject {
         let main: String
     }
     
-    static var shared = OpenWeatherManager()
+    init() { }
     
-    private init() { }
-    
-    private func saveDataFromCurrentWeatherResponse() {
+    func getCurrentResponse() async throws -> CurrentResponse {
         guard let lat = locationManager.userLocation?.coordinate.latitude,
               let lon = locationManager.userLocation?.coordinate.longitude
         else {
-            debugPrint("invalid location")
-            return
+            throw CLError(.locationUnknown)
         }
         
-        provider.request(.current(lat: lat, lon: lon)) { result in
-            switch result {
-            case .success(let response):
-                do {
-                    let currentResponse = try response.map(CurrentResponse.self)
-                    
-                    self.weatherDataManager.saveCurrentWeather(currentResponse: currentResponse)
-                } catch {
-                    debugPrint("fail to map")
+        let result: CurrentResponse = try await withCheckedThrowingContinuation({ continuation in
+            provider.request(.current(lat: lat, lon: lon)) { result in
+                switch result {
+                case .success(let response):
+                    do {
+                        let currentResponse = try response.map(CurrentResponse.self)
+                        continuation.resume(returning: currentResponse)
+                    } catch {
+                        continuation.resume(throwing: error)
+                    }
+                case .failure(let error):
+                    continuation.resume(throwing: error)
                 }
-            case .failure(let error):
-                debugPrint(error.errorDescription ?? "Unknown error")
             }
-        }
+        })
+        
+        return result
     }
 
-    private func saveDataFromWeatherForecastResponse() {
+    func getForecastResponse() async throws -> ForecastResponse {
         guard let lat = locationManager.userLocation?.coordinate.latitude,
               let lon = locationManager.userLocation?.coordinate.longitude
         else {
-            debugPrint("invalid location")
-            return
+            throw CLError(.locationUnknown)
         }
         
-        provider.request(.forecast(lat: lat, lon: lon)) { result in
-            switch result {
-            case .success(let response):
-                do {
-                    let forecastResponse = try response.map(ForecastResponse.self)
-                    
-                    self.weatherDataManager.saveWeatherForecast(forecastResponse: forecastResponse)
-                    
-                    withAnimation(.default) {
-                        self.isUpdatingCompleted = true
+        let result: ForecastResponse = try await withCheckedThrowingContinuation({ continuation in
+            provider.request(.forecast(lat: lat, lon: lon)) { result in
+                switch result {
+                case .success(let response):
+                    do {
+                        let forecastResponse = try response.map(ForecastResponse.self)
+                        continuation.resume(returning: forecastResponse)
+                    } catch {
+                        continuation.resume(throwing: error)
                     }
-                } catch {
-                    debugPrint("fail to map")
+                case .failure(let error):
+                    continuation.resume(throwing: error)
                 }
-            case .failure(let error):
-                debugPrint(error.errorDescription ?? "Unknown error")
             }
-        }
-    }
-    
-    func updateLocalWeatherData() {
-        saveDataFromCurrentWeatherResponse()
-        saveDataFromWeatherForecastResponse()
+        })
+        
+        return result
     }
 }
