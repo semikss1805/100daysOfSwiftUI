@@ -31,6 +31,8 @@ struct PersistenceController {
                 fatalError("Error: \(error.localizedDescription)")
             }
         }
+        
+        self.container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
     }
     
     func save(completion: @escaping ErrorComplition = {_ in}) {

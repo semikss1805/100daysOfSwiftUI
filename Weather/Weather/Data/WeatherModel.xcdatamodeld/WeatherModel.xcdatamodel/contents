@@ -6,13 +6,28 @@
         <attribute name="unixTime" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="weather" attributeType="String"/>
     </entity>
-    <entity name="WeatherForecast" representedClassName="WeatherForecast" syncable="YES" codeGenerationType="class">
+    <entity name="Day" representedClassName="Day" syncable="YES">
         <attribute name="day" attributeType="String"/>
+        <attribute name="dayNumber" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="weatherForecast" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WeatherForecast" inverseName="relatedDay" inverseEntity="WeatherForecast"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="day"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="WeatherForecast" representedClassName="WeatherForecast" syncable="YES">
+        <attribute name="maxTemp" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="minTemp" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="temp" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" customClassName="Temp"/>
+        <attribute name="tempFeelsLike" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="unixTime" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="weather" attributeType="String"/>
+        <relationship name="relatedDay" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Day" inverseName="weatherForecast" inverseEntity="Day"/>
     </entity>
     <elements>
         <element name="CurrentWeather" positionX="-45" positionY="0" width="128" height="89"/>
-        <element name="WeatherForecast" positionX="-18" positionY="54" width="128" height="74"/>
+        <element name="WeatherForecast" positionX="-18" positionY="54" width="128" height="134"/>
+        <element name="Day" positionX="9" positionY="90" width="128" height="74"/>
     </elements>
 </model>

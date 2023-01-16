@@ -1,5 +1,5 @@
 //
-//  OpenWeatherMnager.swift
+//  OpenWeatherManager.swift
 //  Weather
 //
 //  Created by SemikSS on 13.01.2023.
@@ -19,8 +19,16 @@ final class OpenWeatherManager {
     }
     
     struct HourlyResponse: Codable {
+        let main: Temp
         let dt: Int
         let weather: [Weather]
+    }
+    
+    struct Temp: Codable {
+        let temp: Double
+        let feels_like: Double
+        let temp_min: Double
+        let temp_max: Double
     }
     
     struct CurrentResponse: Codable {
@@ -83,6 +91,8 @@ final class OpenWeatherManager {
                 }
             }
         })
+        
+//        debugPrint(result)
         
         return result
     }

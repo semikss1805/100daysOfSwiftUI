@@ -14,8 +14,12 @@
 		A635B0C829655BA500C1BBCA /* OpenWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = A635B0C729655BA500C1BBCA /* OpenWeather.swift */; };
 		A635B0F7296BF93700C1BBCA /* WeatherModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A635B0F5296BF93700C1BBCA /* WeatherModel.xcdatamodeld */; };
 		A635B0F9296C043000C1BBCA /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = A635B0F8296C043000C1BBCA /* Persistence.swift */; };
-		A635B0FB297147C800C1BBCA /* OpenWeatherMnager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A635B0FA297147C500C1BBCA /* OpenWeatherMnager.swift */; };
+		A635B0FB297147C800C1BBCA /* OpenWeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A635B0FA297147C500C1BBCA /* OpenWeatherManager.swift */; };
 		A635B0FE2971516000C1BBCA /* WeatherDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A635B0FD2971516000C1BBCA /* WeatherDataManager.swift */; };
+		A635B10B29758AE100C1BBCA /* Day+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A635B10729758AE100C1BBCA /* Day+CoreDataClass.swift */; };
+		A635B10C29758AE100C1BBCA /* Day+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A635B10829758AE100C1BBCA /* Day+CoreDataProperties.swift */; };
+		A635B10D29758AE100C1BBCA /* WeatherForecast+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A635B10929758AE100C1BBCA /* WeatherForecast+CoreDataClass.swift */; };
+		A635B10E29758AE100C1BBCA /* WeatherForecast+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A635B10A29758AE100C1BBCA /* WeatherForecast+CoreDataProperties.swift */; };
 		A68025B32964655800C73753 /* WeatherApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A68025B22964655800C73753 /* WeatherApp.swift */; };
 		A68025B52964655800C73753 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A68025B42964655800C73753 /* ContentView.swift */; };
 		A68025B72964655C00C73753 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A68025B62964655C00C73753 /* Assets.xcassets */; };
@@ -55,8 +59,12 @@
 		A635B0C729655BA500C1BBCA /* OpenWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeather.swift; sourceTree = "<group>"; };
 		A635B0F6296BF93700C1BBCA /* WeatherModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WeatherModel.xcdatamodel; sourceTree = "<group>"; };
 		A635B0F8296C043000C1BBCA /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
-		A635B0FA297147C500C1BBCA /* OpenWeatherMnager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherMnager.swift; sourceTree = "<group>"; };
+		A635B0FA297147C500C1BBCA /* OpenWeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherManager.swift; sourceTree = "<group>"; };
 		A635B0FD2971516000C1BBCA /* WeatherDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataManager.swift; sourceTree = "<group>"; };
+		A635B10729758AE100C1BBCA /* Day+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Day+CoreDataClass.swift"; sourceTree = "<group>"; };
+		A635B10829758AE100C1BBCA /* Day+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Day+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		A635B10929758AE100C1BBCA /* WeatherForecast+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherForecast+CoreDataClass.swift"; sourceTree = "<group>"; };
+		A635B10A29758AE100C1BBCA /* WeatherForecast+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherForecast+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A68025AF2964655800C73753 /* Weather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A68025B22964655800C73753 /* WeatherApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherApp.swift; sourceTree = "<group>"; };
 		A68025B42964655800C73753 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -144,7 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				A635B0C729655BA500C1BBCA /* OpenWeather.swift */,
-				A635B0FA297147C500C1BBCA /* OpenWeatherMnager.swift */,
+				A635B0FA297147C500C1BBCA /* OpenWeatherManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -152,6 +160,10 @@
 		A635B0FC2971512B00C1BBCA /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				A635B10729758AE100C1BBCA /* Day+CoreDataClass.swift */,
+				A635B10829758AE100C1BBCA /* Day+CoreDataProperties.swift */,
+				A635B10929758AE100C1BBCA /* WeatherForecast+CoreDataClass.swift */,
+				A635B10A29758AE100C1BBCA /* WeatherForecast+CoreDataProperties.swift */,
 				A635B0F5296BF93700C1BBCA /* WeatherModel.xcdatamodeld */,
 				A635B0F8296C043000C1BBCA /* Persistence.swift */,
 				A635B0FD2971516000C1BBCA /* WeatherDataManager.swift */,
@@ -458,14 +470,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A635B10E29758AE100C1BBCA /* WeatherForecast+CoreDataProperties.swift in Sources */,
 				A635B0F7296BF93700C1BBCA /* WeatherModel.xcdatamodeld in Sources */,
 				A635B0C829655BA500C1BBCA /* OpenWeather.swift in Sources */,
 				A635B0C229647B9400C1BBCA /* LocationManager.swift in Sources */,
+				A635B10C29758AE100C1BBCA /* Day+CoreDataProperties.swift in Sources */,
 				A635B0F9296C043000C1BBCA /* Persistence.swift in Sources */,
+				A635B10B29758AE100C1BBCA /* Day+CoreDataClass.swift in Sources */,
 				A68025B52964655800C73753 /* ContentView.swift in Sources */,
 				A635B0C029647B5200C1BBCA /* LocationRequestView.swift in Sources */,
 				A635B0FE2971516000C1BBCA /* WeatherDataManager.swift in Sources */,
-				A635B0FB297147C800C1BBCA /* OpenWeatherMnager.swift in Sources */,
+				A635B10D29758AE100C1BBCA /* WeatherForecast+CoreDataClass.swift in Sources */,
+				A635B0FB297147C800C1BBCA /* OpenWeatherManager.swift in Sources */,
 				A68025B32964655800C73753 /* WeatherApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

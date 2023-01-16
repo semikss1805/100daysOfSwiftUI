@@ -49,7 +49,10 @@ struct LocationRequestView: View {
 struct LocationRequestView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            LocationRequestView()
+            ZStack {
+                LocationRequestView()
+            }
+.previewInterfaceOrientation(.portraitUpsideDown)
         }
     }
 }
