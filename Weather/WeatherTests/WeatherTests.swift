@@ -6,6 +6,8 @@
 //
 
 import XCTest
+import Moya
+import CoreData
 @testable import Weather
 
 // Quick, Nimble, SwiftyMocky
@@ -13,26 +15,73 @@ import XCTest
 class WeatherTests: XCTestCase {
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        super.setUp()
     }
 
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    func testResponse() throws {
+        let provider = MoyaProvider<OpenWeather>()
+        
+        let expectation = self.expectation(description: "request")
+        provider.request(.current(lat: -22, lon: 22)) { res in
+            switch res {
+                
+            case .success(_):
+                expectation.fulfill()
+            case .failure(let error):
+                debugPrint(error)
+            }
+        }
+        self.waitForExpectations(timeout: 5.0, handler: nil)
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    
+    func testResponseMaping() throws {
+        let provider = MoyaProvider<OpenWeather>()
+        
+        let expectation = self.expectation(description: "request")
+        provider.request(.current(lat: -22, lon: 22)) { res in
+            switch res {
+                
+            case .success(let response):
+                do {
+                    let result = try response.map(OpenWeatherManager.CurrentResponse.self)
+                    debugPrint(result)
+                    expectation.fulfill()
+                } catch {
+                    debugPrint(error)
+                }
+            case .failure(let error):
+                debugPrint(error)
+            }
+        }
+        self.waitForExpectations(timeout: 5.0, handler: nil)
+    }
+    
+    func testWeatherModelRelation() throws {
+        let managedObjectContext = PersistenceController.shared.container.viewContext
+        let weatherForecast = try managedObjectContext.fetch(WeatherForecast.fetchRequest())
+        
+        for singleForecast in weatherForecast {
+            XCTAssertNotNil(singleForecast.relatedDay?.day)
         }
     }
-
+    
+    func testForecastResponseMaping() throws {
+        let url = Bundle.main.url(forResource: "TestResponse", withExtension: "json")!
+        let data = try Data(contentsOf: url)
+        
+        let response = Response(statusCode: 200, data: data)
+        
+        let result = try response.map(OpenWeatherManager.ForecastResponse.self)
+        
+        XCTAssertEqual(result.list.first?.dt, 1673276400)
+        XCTAssertEqual(result.list.first?.main.temp, 286.73)
+        XCTAssertEqual(result.list.first?.main.feels_like, 286.62)
+        XCTAssertEqual(result.list.first?.main.temp_min, 286.66)
+        XCTAssertEqual(result.list.first?.main.temp_max, 286.73)
+        XCTAssertEqual(result.list.first?.weather.first?.main, "Rain")
+    }
 }

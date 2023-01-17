@@ -20,6 +20,9 @@
 		A635B10C29758AE100C1BBCA /* Day+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A635B10829758AE100C1BBCA /* Day+CoreDataProperties.swift */; };
 		A635B10D29758AE100C1BBCA /* WeatherForecast+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A635B10929758AE100C1BBCA /* WeatherForecast+CoreDataClass.swift */; };
 		A635B10E29758AE100C1BBCA /* WeatherForecast+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A635B10A29758AE100C1BBCA /* WeatherForecast+CoreDataProperties.swift */; };
+		A635B1102976B4E400C1BBCA /* DailyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A635B10F2976B4E400C1BBCA /* DailyView.swift */; };
+		A635B11B2976E83D00C1BBCA /* TestResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = A635B11A2976E83D00C1BBCA /* TestResponse.json */; };
+		A635B11C2976E83D00C1BBCA /* TestResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = A635B11A2976E83D00C1BBCA /* TestResponse.json */; };
 		A68025B32964655800C73753 /* WeatherApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A68025B22964655800C73753 /* WeatherApp.swift */; };
 		A68025B52964655800C73753 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A68025B42964655800C73753 /* ContentView.swift */; };
 		A68025B72964655C00C73753 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A68025B62964655C00C73753 /* Assets.xcassets */; };
@@ -65,6 +68,8 @@
 		A635B10829758AE100C1BBCA /* Day+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Day+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A635B10929758AE100C1BBCA /* WeatherForecast+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherForecast+CoreDataClass.swift"; sourceTree = "<group>"; };
 		A635B10A29758AE100C1BBCA /* WeatherForecast+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherForecast+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		A635B10F2976B4E400C1BBCA /* DailyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyView.swift; sourceTree = "<group>"; };
+		A635B11A2976E83D00C1BBCA /* TestResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TestResponse.json; sourceTree = "<group>"; };
 		A68025AF2964655800C73753 /* Weather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A68025B22964655800C73753 /* WeatherApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherApp.swift; sourceTree = "<group>"; };
 		A68025B42964655800C73753 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -136,6 +141,7 @@
 			children = (
 				A68025B42964655800C73753 /* ContentView.swift */,
 				A635B0BF29647B5200C1BBCA /* LocationRequestView.swift */,
+				A635B10F2976B4E400C1BBCA /* DailyView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -219,6 +225,7 @@
 			isa = PBXGroup;
 			children = (
 				A68025C82964655C00C73753 /* WeatherTests.swift */,
+				A635B11A2976E83D00C1BBCA /* TestResponse.json */,
 			);
 			path = WeatherTests;
 			sourceTree = "<group>";
@@ -343,6 +350,7 @@
 			files = (
 				A68025BA2964655C00C73753 /* Preview Assets.xcassets in Resources */,
 				A68025B72964655C00C73753 /* Assets.xcassets in Resources */,
+				A635B11B2976E83D00C1BBCA /* TestResponse.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,6 +358,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A635B11C2976E83D00C1BBCA /* TestResponse.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -474,6 +483,7 @@
 				A635B0F7296BF93700C1BBCA /* WeatherModel.xcdatamodeld in Sources */,
 				A635B0C829655BA500C1BBCA /* OpenWeather.swift in Sources */,
 				A635B0C229647B9400C1BBCA /* LocationManager.swift in Sources */,
+				A635B1102976B4E400C1BBCA /* DailyView.swift in Sources */,
 				A635B10C29758AE100C1BBCA /* Day+CoreDataProperties.swift in Sources */,
 				A635B0F9296C043000C1BBCA /* Persistence.swift in Sources */,
 				A635B10B29758AE100C1BBCA /* Day+CoreDataClass.swift in Sources */,

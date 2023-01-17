@@ -8,36 +8,6 @@
 import SwiftUI
 import CoreData
 
-struct DailyView: View {
-    var day: Day
-
-    
-    var body: some View {
-        ScrollView(.horizontal) {
-            HStack(spacing: 16) {
-                ForEach(day.weatherForecastArray) { weatherForecast in
-                    let date = Date(timeIntervalSince1970: TimeInterval(weatherForecast.unixTime + 6400))
-                    let day = date.formatted(.dateTime.hour(.twoDigits(amPM: .abbreviated)))
-                    
-                    VStack {
-                        Image(weatherForecast.weather ?? "")
-                        Text(day)
-                            .font(.title3.bold())
-                        Text("""
-                            Temp: \(weatherForecast.temp.formatted())
-                            Feels like: \(weatherForecast.tempFeelsLike.formatted())
-                            Max temp: \(weatherForecast.maxTemp.formatted())
-                            Min temp \(weatherForecast.minTemp.formatted())
-                            """)
-                    }
-                }
-            }
-            .padding(8)
-            .navigationBarTitle(day.day ?? "DayError")
-        }
-    }
-}
-
 struct ContentView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     
@@ -78,7 +48,7 @@ struct ContentView: View {
                 VStack {
                     VStack {
                         Image(currentWeather.last?.weather ?? "")
-                            .scaleEffect(4)
+                            .scaleEffect(3)
                     }
                     .frame(height: 100, alignment: .center)
                     Text("\(currentWeather.last?.name ?? ""), \(currentWeather.last?.day ?? "")")
@@ -127,17 +97,6 @@ struct ContentView: View {
                     debugPrint("update failed")
                 }
             }
-        }
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            ZStack {
-                ContentView()
-            }
-            .previewInterfaceOrientation(.landscapeLeft)
         }
     }
 }

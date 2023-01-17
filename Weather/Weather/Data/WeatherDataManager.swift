@@ -57,7 +57,7 @@ final class WeatherDataManager {
         for index in  0..<responseArray.count {
             let date = Date(timeIntervalSince1970: TimeInterval(responseArray[index].dt))
             let day = date.formatted(.dateTime.weekday(.wide))
-            let dayNumber = day == "Sunday" ? "8" :date.formatted(.dateTime.weekday(.oneDigit))
+            let dayNumber = day == "Sunday" ? 8 : Int(date.formatted(.dateTime.weekday(.oneDigit)))
 //            debugPrint(day)
 //            debugPrint(dayNumber)
             
@@ -65,7 +65,7 @@ final class WeatherDataManager {
                 weatherForecast[index].weather = responseArray[index].weather[0].main
                 weatherForecast[index].unixTime = Int64(truncatingIfNeeded: responseArray[index].dt)
                 weatherForecast[index].relatedDay?.day = day
-                weatherForecast[index].relatedDay?.dayNumber = Int32(dayNumber) ?? 0
+                weatherForecast[index].relatedDay?.dayNumber = Int32(dayNumber ?? 0)
                 weatherForecast[index].temp = responseArray[index].main.temp
                 weatherForecast[index].tempFeelsLike = responseArray[index].main.feels_like
                 weatherForecast[index].minTemp = responseArray[index].main.temp_min
@@ -76,7 +76,7 @@ final class WeatherDataManager {
                 weatherForecastFromResponse.unixTime = Int64(truncatingIfNeeded: responseArray[index].dt)
                 weatherForecastFromResponse.relatedDay = Day(context: managedObjectContext)
                 weatherForecastFromResponse.relatedDay?.day = day
-                weatherForecastFromResponse.relatedDay?.dayNumber = Int32(dayNumber) ?? 0
+                weatherForecastFromResponse.relatedDay?.dayNumber = Int32(dayNumber ?? 0)
                 weatherForecastFromResponse.temp = responseArray[index].main.temp
                 weatherForecastFromResponse.tempFeelsLike = responseArray[index].main.feels_like
                 weatherForecastFromResponse.minTemp = responseArray[index].main.temp_min
