@@ -84,4 +84,38 @@ class WeatherTests: XCTestCase {
         XCTAssertEqual(result.list.first?.main.temp_max, 286.73)
         XCTAssertEqual(result.list.first?.weather.first?.main, "Rain")
     }
+    
+    func testWeatherModelSaveDelete() throws {
+        let context = TestCoreDataStack().persistentContainer.newBackgroundContext()
+        
+        let testWeatherForecast = WeatherForecast(context: context)
+        testWeatherForecast.weather = "Cloud"
+        testWeatherForecast.unixTime = 1673276400
+        testWeatherForecast.relatedDay = Day(context: context)
+        testWeatherForecast.relatedDay?.day = "test day"
+        testWeatherForecast.relatedDay?.dayNumber = 0
+        testWeatherForecast.temp = 286.73
+        testWeatherForecast.minTemp = 286.66
+        testWeatherForecast.maxTemp = 286.73
+        testWeatherForecast.tempFeelsLike = 286.62
+        
+        expectation(forNotification: .NSManagedObjectContextDidSave, object: context) { _ in return true }
+        
+        try context.save()
+        
+        waitForExpectations(timeout: 2.0) { error in
+            XCTAssertNil(error, "Save did not occur")
+        }
+        
+        var weatherForecast = try context.fetch(WeatherForecast.fetchRequest())
+        
+        XCTAssertEqual(weatherForecast.count, 1)
+        
+        context.delete(testWeatherForecast)
+        try context.save()
+        
+        weatherForecast = try context.fetch(WeatherForecast.fetchRequest())
+
+        XCTAssertEqual(weatherForecast.count, 0)
+    }
 }

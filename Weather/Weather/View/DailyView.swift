@@ -28,6 +28,7 @@ struct DailyView: View {
                             Max temp: \(weatherForecast.maxTemp.formatted())
                             Min temp \(weatherForecast.minTemp.formatted())
                             """)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
                 }
             }

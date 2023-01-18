@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 
 extension Day {
@@ -34,6 +35,29 @@ extension Day {
         return set.sorted { $0.unixTime < $1.unixTime }
     }
     
+    public var averageWeather: String {
+        var weathers = Set<String>()
+        
+        for weatherForecast in weatherForecastArray {
+            weathers.insert(weatherForecast.weather ?? "")
+        }
+        
+        let countedSet = NSCountedSet(array: weatherForecastArray)
+
+        var averageWeather = weatherForecastArray.first?.weather ?? ""
+        var hoursAmount = countedSet.count(for: averageWeather)
+        
+        for weather in weathers {
+            let weatherCount = countedSet.count(for: weather)
+            
+            if weatherCount > hoursAmount {
+                averageWeather = weather
+                hoursAmount = weatherCount
+            }
+        }
+        
+        return averageWeather
+    }
 }
 
 // MARK: Generated accessors for weatherForecast

@@ -52,36 +52,30 @@ final class WeatherDataManager {
         
         let forecastResponse = try await openWeatherManager.getForecastResponse()
         
+        for forecast in weatherForecast {
+            managedObjectContext.delete(forecast)
+            contextSave()
+        }
+        
         let responseArray = forecastResponse.list
         
         for index in  0..<responseArray.count {
             let date = Date(timeIntervalSince1970: TimeInterval(responseArray[index].dt))
             let day = date.formatted(.dateTime.weekday(.wide))
-            let dayNumber = day == "Sunday" ? 8 : Int(date.formatted(.dateTime.weekday(.oneDigit)))
-//            debugPrint(day)
-//            debugPrint(dayNumber)
+            let dayNumber = index
+            //            debugPrint(day)
+            //            debugPrint(dayNumber)
             
-            if weatherForecast.count == 40 {
-                weatherForecast[index].weather = responseArray[index].weather[0].main
-                weatherForecast[index].unixTime = Int64(truncatingIfNeeded: responseArray[index].dt)
-                weatherForecast[index].relatedDay?.day = day
-                weatherForecast[index].relatedDay?.dayNumber = Int32(dayNumber ?? 0)
-                weatherForecast[index].temp = responseArray[index].main.temp
-                weatherForecast[index].tempFeelsLike = responseArray[index].main.feels_like
-                weatherForecast[index].minTemp = responseArray[index].main.temp_min
-                weatherForecast[index].maxTemp = responseArray[index].main.temp_max
-            } else {
-                let weatherForecastFromResponse = WeatherForecast(context: managedObjectContext)
-                weatherForecastFromResponse.weather = responseArray[index].weather[0].main
-                weatherForecastFromResponse.unixTime = Int64(truncatingIfNeeded: responseArray[index].dt)
-                weatherForecastFromResponse.relatedDay = Day(context: managedObjectContext)
-                weatherForecastFromResponse.relatedDay?.day = day
-                weatherForecastFromResponse.relatedDay?.dayNumber = Int32(dayNumber ?? 0)
-                weatherForecastFromResponse.temp = responseArray[index].main.temp
-                weatherForecastFromResponse.tempFeelsLike = responseArray[index].main.feels_like
-                weatherForecastFromResponse.minTemp = responseArray[index].main.temp_min
-                weatherForecastFromResponse.maxTemp = responseArray[index].main.temp_max
-            }
+            let weatherForecastFromResponse = WeatherForecast(context: managedObjectContext)
+            weatherForecastFromResponse.weather = responseArray[index].weather[0].main
+            weatherForecastFromResponse.unixTime = Int64(truncatingIfNeeded: responseArray[index].dt)
+            weatherForecastFromResponse.relatedDay = Day(context: managedObjectContext)
+            weatherForecastFromResponse.relatedDay?.day = day
+            weatherForecastFromResponse.relatedDay?.dayNumber = Int32(dayNumber)
+            weatherForecastFromResponse.temp = responseArray[index].main.temp
+            weatherForecastFromResponse.tempFeelsLike = responseArray[index].main.feels_like
+            weatherForecastFromResponse.minTemp = responseArray[index].main.temp_min
+            weatherForecastFromResponse.maxTemp = responseArray[index].main.temp_max
             
             contextSave(error: .WeatherForecastFailed)
         }
@@ -92,7 +86,7 @@ final class WeatherDataManager {
         try await updateLocalWeatherForecast()
     }
     
-    private func contextSave(error: DataError) {
+    private func contextSave(error: DataError = DataError.Unknown) {
         do {
             try managedObjectContext.save()
         } catch {

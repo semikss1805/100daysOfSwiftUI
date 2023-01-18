@@ -68,14 +68,16 @@ struct ContentView: View {
                         HStack(alignment: .center, spacing: 40) {
                             
                             ForEach(dayResponses) { day in
-                                NavigationLink(destination: DailyView(day: day)) {
-                                    VStack(alignment: .center, spacing: 10) {
-                                        Image(day.weatherForecastArray[0].weather ?? "")
-                                        // do not use force unwrap
-                                        Text(day.day ?? "")
-                                            .font(.title3.bold())
+                                if !day.weatherForecastArray.isEmpty {
+                                    NavigationLink(destination: DailyView(day: day)) {
+                                        VStack(alignment: .center, spacing: 10) {
+                                            Image(day.averageWeather)
+                                            // do not use force unwrap
+                                            Text(day.day ?? "")
+                                                .font(.title3.bold())
+                                        }
+                                        .frame(width: 120)
                                     }
-                                    .frame(width: 120)
                                 }
                             }
                             
