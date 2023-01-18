@@ -9,7 +9,7 @@ import CoreData
 import Foundation
 @testable import Weather
 
-class TestCoreDataStack: NSObject {
+final class TestCoreDataStack: NSObject {
     lazy var persistentContainer: NSPersistentContainer = {
         let description = NSPersistentStoreDescription()
         description.url = URL(fileURLWithPath: "/dev/null")

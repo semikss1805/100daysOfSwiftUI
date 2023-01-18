@@ -44,14 +44,10 @@ final class OpenWeatherManager {
     init() { }
     
     func getCurrentResponse() async throws -> CurrentResponse {
-        guard let lat = locationManager.userLocation?.coordinate.latitude,
-              let lon = locationManager.userLocation?.coordinate.longitude
-        else {
-            throw CLError(.locationUnknown)
-        }
+        let coordinates = try getCoordinates()
         
         let result: CurrentResponse = try await withCheckedThrowingContinuation({ continuation in
-            provider.request(.current(lat: lat, lon: lon)) { result in
+            provider.request(.current(lat: coordinates.lat, lon: coordinates.lon)) { result in
                 switch result {
                 case .success(let response):
                     do {
@@ -70,14 +66,10 @@ final class OpenWeatherManager {
     }
 
     func getForecastResponse() async throws -> ForecastResponse {
-        guard let lat = locationManager.userLocation?.coordinate.latitude,
-              let lon = locationManager.userLocation?.coordinate.longitude
-        else {
-            throw CLError(.locationUnknown)
-        }
+        let coordinates = try getCoordinates()
         
         let result: ForecastResponse = try await withCheckedThrowingContinuation({ continuation in
-            provider.request(.forecast(lat: lat, lon: lon)) { result in
+            provider.request(.forecast(lat: coordinates.lat, lon: coordinates.lon)) { result in
                 switch result {
                 case .success(let response):
                     do {
@@ -92,8 +84,16 @@ final class OpenWeatherManager {
             }
         })
         
-//        debugPrint(result)
-        
         return result
+    }
+    
+    private func getCoordinates() throws -> (lat: Double, lon: Double) {
+        guard let lat = locationManager.userLocation?.coordinate.latitude,
+              let lon = locationManager.userLocation?.coordinate.longitude
+        else {
+            throw CLError(.locationUnknown)
+        }
+        
+        return (lat, lon)
     }
 }

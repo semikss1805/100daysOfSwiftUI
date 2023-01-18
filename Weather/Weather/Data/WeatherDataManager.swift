@@ -13,12 +13,6 @@ final class WeatherDataManager {
     
     private let openWeatherManager = OpenWeatherManager()
     
-    enum DataError: Error {
-        case CurrentWeatherFailed
-        case WeatherForecastFailed
-        case Unknown
-    }
-    
     init() { }
     
     private func updateLocalCurrentWeather() async throws {
@@ -26,10 +20,8 @@ final class WeatherDataManager {
         
         let currentResponse = try await openWeatherManager.getCurrentResponse()
         
-        
         let date = Date(timeIntervalSince1970: TimeInterval(currentResponse.dt))
         let day = date.formatted(date: .complete, time: .shortened)
-        
         
         if currentWeather.isEmpty {
             let currentWeatherFromResponse = CurrentWeather(context: managedObjectContext)
@@ -44,7 +36,7 @@ final class WeatherDataManager {
             currentWeather[0].unixTime = Int64(truncatingIfNeeded: currentResponse.dt)
         }
         
-        contextSave(error: .CurrentWeatherFailed)
+        try managedObjectContext.save()
     }
     
     private func updateLocalWeatherForecast() async throws {
@@ -54,7 +46,7 @@ final class WeatherDataManager {
         
         for forecast in weatherForecast {
             managedObjectContext.delete(forecast)
-            contextSave()
+            try managedObjectContext.save()
         }
         
         let responseArray = forecastResponse.list
@@ -63,8 +55,6 @@ final class WeatherDataManager {
             let date = Date(timeIntervalSince1970: TimeInterval(responseArray[index].dt))
             let day = date.formatted(.dateTime.weekday(.wide))
             let dayNumber = index
-            //            debugPrint(day)
-            //            debugPrint(dayNumber)
             
             let weatherForecastFromResponse = WeatherForecast(context: managedObjectContext)
             weatherForecastFromResponse.weather = responseArray[index].weather[0].main
@@ -77,20 +67,12 @@ final class WeatherDataManager {
             weatherForecastFromResponse.minTemp = responseArray[index].main.temp_min
             weatherForecastFromResponse.maxTemp = responseArray[index].main.temp_max
             
-            contextSave(error: .WeatherForecastFailed)
+            try managedObjectContext.save()
         }
     }
     
     func updateLocalData() async throws {
         try await updateLocalCurrentWeather()
         try await updateLocalWeatherForecast()
-    }
-    
-    private func contextSave(error: DataError = DataError.Unknown) {
-        do {
-            try managedObjectContext.save()
-        } catch {
-            debugPrint(error)
-        }
     }
 }
