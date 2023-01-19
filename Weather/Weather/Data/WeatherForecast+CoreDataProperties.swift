@@ -22,8 +22,31 @@ extension WeatherForecast {
     @NSManaged public var minTemp: Double
     @NSManaged public var maxTemp: Double
     @NSManaged public var tempFeelsLike: Double
-    @NSManaged public var relatedDay: Day?
+    @NSManaged public var relatedDay: Day
 
+    public var wrappedWeather: String {
+        weather ?? "unknown weather"
+    }
+    
+    public var wrappedUnixTime: Int64 {
+        unixTime
+    }
+    
+    public var wrappedTemp: Double {
+        temp
+    }
+    
+    public var wrappedMinTemp: Double {
+        minTemp
+    }
+    
+    public var wrappedMaxTemp: Double {
+        maxTemp
+    }
+    
+    public var wrappedTempFeelsLike: Double {
+        tempFeelsLike
+    }
 }
 
 extension WeatherForecast : Identifiable {

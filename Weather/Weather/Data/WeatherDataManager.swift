@@ -36,38 +36,58 @@ final class WeatherDataManager {
             currentWeather[0].unixTime = Int64(truncatingIfNeeded: currentResponse.dt)
         }
         
-        try managedObjectContext.save()
+        contextSave()
     }
     
     private func updateLocalWeatherForecast() async throws {
-        let weatherForecast = try managedObjectContext.fetch(WeatherForecast.fetchRequest())
-        
         let forecastResponse = try await openWeatherManager.getForecastResponse()
-        
-        for forecast in weatherForecast {
-            managedObjectContext.delete(forecast)
-            try managedObjectContext.save()
-        }
         
         let responseArray = forecastResponse.list
         
-        for index in  0..<responseArray.count {
-            let date = Date(timeIntervalSince1970: TimeInterval(responseArray[index].dt))
-            let day = date.formatted(.dateTime.weekday(.wide))
-            let dayNumber = index
+        DispatchQueue.main.async { [weak self] in
+            do {
+                try self?.clearLocalWeatherForecast()
+            } catch {
+                    debugPrint("clear failed")
+            }
             
-            let weatherForecastFromResponse = WeatherForecast(context: managedObjectContext)
-            weatherForecastFromResponse.weather = responseArray[index].weather[0].main
-            weatherForecastFromResponse.unixTime = Int64(truncatingIfNeeded: responseArray[index].dt)
-            weatherForecastFromResponse.relatedDay = Day(context: managedObjectContext)
-            weatherForecastFromResponse.relatedDay?.day = day
-            weatherForecastFromResponse.relatedDay?.dayNumber = Int32(dayNumber)
-            weatherForecastFromResponse.temp = responseArray[index].main.temp
-            weatherForecastFromResponse.tempFeelsLike = responseArray[index].main.feels_like
-            weatherForecastFromResponse.minTemp = responseArray[index].main.temp_min
-            weatherForecastFromResponse.maxTemp = responseArray[index].main.temp_max
+            for index in  0..<responseArray.count {
+                let date = Date(timeIntervalSince1970: TimeInterval(responseArray[index].dt))
+                let day = date.formatted(.dateTime.weekday(.wide))
+                let dayNumber = index
+                
+                let weatherForecastFromResponse = WeatherForecast(context: self!.managedObjectContext)
+                weatherForecastFromResponse.weather = responseArray[index].weather[0].main
+                weatherForecastFromResponse.unixTime = Int64(truncatingIfNeeded: responseArray[index].dt)
+                weatherForecastFromResponse.relatedDay = Day(context: self!.managedObjectContext)
+                weatherForecastFromResponse.relatedDay.day = day
+                weatherForecastFromResponse.relatedDay.dayNumber = Int64(dayNumber)
+                weatherForecastFromResponse.temp = responseArray[index].main.temp
+                weatherForecastFromResponse.tempFeelsLike = responseArray[index].main.feels_like
+                weatherForecastFromResponse.minTemp = responseArray[index].main.temp_min
+                weatherForecastFromResponse.maxTemp = responseArray[index].main.temp_max
+            }
             
+            self?.contextSave()
+        }
+        // ARC, DispatchQueue(group, main, separate thread etc), strong ref cycle, Heap/Stack
+        // CIImage/CIFilter
+    }
+    
+    
+    private func clearLocalWeatherForecast() throws {
+        let weatherForecast = try managedObjectContext.fetch(WeatherForecast.fetchRequest())
+        
+        for weatherForecast in weatherForecast {
+            managedObjectContext.delete(weatherForecast)
+        }
+    }
+    
+    private func contextSave() {
+        do {
             try managedObjectContext.save()
+        } catch {
+            debugPrint("save failed")
         }
     }
     

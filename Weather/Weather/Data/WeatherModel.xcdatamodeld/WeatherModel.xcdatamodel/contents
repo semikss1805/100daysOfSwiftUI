@@ -8,7 +8,7 @@
     </entity>
     <entity name="Day" representedClassName="Day" syncable="YES">
         <attribute name="day" attributeType="String"/>
-        <attribute name="dayNumber" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="dayNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="weatherForecast" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WeatherForecast" inverseName="relatedDay" inverseEntity="WeatherForecast"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
@@ -27,7 +27,7 @@
     </entity>
     <elements>
         <element name="CurrentWeather" positionX="-45" positionY="0" width="128" height="89"/>
-        <element name="WeatherForecast" positionX="-18" positionY="54" width="128" height="134"/>
         <element name="Day" positionX="9" positionY="90" width="128" height="74"/>
+        <element name="WeatherForecast" positionX="-18" positionY="54" width="128" height="134"/>
     </elements>
 </model>

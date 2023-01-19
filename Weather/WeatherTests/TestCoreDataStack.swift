@@ -12,7 +12,7 @@ import Foundation
 final class TestCoreDataStack: NSObject {
     lazy var persistentContainer: NSPersistentContainer = {
         let description = NSPersistentStoreDescription()
-        description.url = URL(fileURLWithPath: "/dev/null")
+        description.type = NSInMemoryStoreType
         let container = NSPersistentContainer(name: "WeatherModel")
         container.persistentStoreDescriptions = [description]
         container.loadPersistentStores { _, error in

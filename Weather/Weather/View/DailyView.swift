@@ -20,8 +20,13 @@ struct DailyView: View {
                     
                     VStack {
                         Image(weatherForecast.weather ?? "")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(minHeight: 20, maxHeight: 100)
+                        
                         Text(day)
                             .font(.title3.bold())
+                        
                         Text("""
                             Temp: \(weatherForecast.temp.formatted())
                             Feels like: \(weatherForecast.tempFeelsLike.formatted())

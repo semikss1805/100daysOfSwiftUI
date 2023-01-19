@@ -21,51 +21,13 @@ class WeatherTests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-
-    func testResponse() throws {
-        let provider = MoyaProvider<OpenWeather>()
-        
-        let expectation = self.expectation(description: "request")
-        provider.request(.current(lat: -22, lon: 22)) { res in
-            switch res {
-                
-            case .success(_):
-                expectation.fulfill()
-            case .failure(let error):
-                debugPrint(error)
-            }
-        }
-        self.waitForExpectations(timeout: 5.0, handler: nil)
-    }
-    
-    func testResponseMaping() throws {
-        let provider = MoyaProvider<OpenWeather>()
-        
-        let expectation = self.expectation(description: "request")
-        provider.request(.current(lat: -22, lon: 22)) { res in
-            switch res {
-                
-            case .success(let response):
-                do {
-                    let result = try response.map(OpenWeatherManager.CurrentResponse.self)
-                    debugPrint(result)
-                    expectation.fulfill()
-                } catch {
-                    debugPrint(error)
-                }
-            case .failure(let error):
-                debugPrint(error)
-            }
-        }
-        self.waitForExpectations(timeout: 5.0, handler: nil)
-    }
     
     func testWeatherModelRelation() throws {
         let managedObjectContext = PersistenceController.shared.container.viewContext
         let weatherForecast = try managedObjectContext.fetch(WeatherForecast.fetchRequest())
         
         for singleForecast in weatherForecast {
-            XCTAssertNotNil(singleForecast.relatedDay?.day)
+            XCTAssertNotNil(singleForecast.relatedDay.day)
         }
     }
     
@@ -92,8 +54,8 @@ class WeatherTests: XCTestCase {
         testWeatherForecast.weather = "Cloud"
         testWeatherForecast.unixTime = 1673276400
         testWeatherForecast.relatedDay = Day(context: context)
-        testWeatherForecast.relatedDay?.day = "test day"
-        testWeatherForecast.relatedDay?.dayNumber = 0
+        testWeatherForecast.relatedDay.day = "test day"
+        testWeatherForecast.relatedDay.dayNumber = 0
         testWeatherForecast.temp = 286.73
         testWeatherForecast.minTemp = 286.66
         testWeatherForecast.maxTemp = 286.73

@@ -18,14 +18,14 @@ extension Day {
     }
 
     @NSManaged public var day: String?
-    @NSManaged public var dayNumber: Int32
+    @NSManaged public var dayNumber: Int64
     @NSManaged public var weatherForecast: NSSet?
 
     public var wrappedDay: String {
         day ?? "unknown day"
     }
     
-    public var wrappedDayNumber: Int32 {
+    public var wrappedDayNumber: Int64 {
         dayNumber
     }
     
@@ -36,22 +36,20 @@ extension Day {
     }
     
     public var averageWeather: String {
-        var weathers = Set<String>()
+        let countedSet = NSCountedSet()
         
         for weatherForecast in weatherForecastArray {
-            weathers.insert(weatherForecast.weather ?? "")
+            countedSet.add(weatherForecast.weather ?? "")
         }
-        
-        let countedSet = NSCountedSet(array: weatherForecastArray)
 
         var averageWeather = weatherForecastArray.first?.weather ?? ""
         var hoursAmount = countedSet.count(for: averageWeather)
         
-        for weather in weathers {
+        for weather in countedSet {
             let weatherCount = countedSet.count(for: weather)
             
             if weatherCount > hoursAmount {
-                averageWeather = weather
+                averageWeather = "\(weather)"
                 hoursAmount = weatherCount
             }
         }

@@ -1,11 +1,12 @@
 {
   "images" : [
     {
+      "filename" : "icons8-clouds-102.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "icons8-clouds-50.png",
+      "filename" : "icons8-clouds-101.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
