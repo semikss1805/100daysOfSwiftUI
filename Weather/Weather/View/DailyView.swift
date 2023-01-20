@@ -9,6 +9,8 @@ import SwiftUI
 
 struct DailyView: View {
     var day: Day
+    
+    private let celsius = "°C"
 
     
     var body: some View {
@@ -28,10 +30,10 @@ struct DailyView: View {
                             .font(.title3.bold())
                         
                         Text("""
-                            Temp: \(weatherForecast.temp.formatted())
-                            Feels like: \(weatherForecast.tempFeelsLike.formatted())
-                            Max temp: \(weatherForecast.maxTemp.formatted())
-                            Min temp \(weatherForecast.minTemp.formatted())
+                            Temp: \(weatherForecast.temp.formatted()) \(celsius)
+                            Feels like: \(weatherForecast.tempFeelsLike.formatted()) \(celsius)
+                            Max temp: \(weatherForecast.maxTemp.formatted()) \(celsius)
+                            Min temp \(weatherForecast.minTemp.formatted()) \(celsius)
                             """)
                             .fixedSize(horizontal: false, vertical: true)
                     }
