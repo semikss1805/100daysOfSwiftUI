@@ -8,7 +8,7 @@
 import UIKit
 
 class ImageSaver: NSObject {
-    var succesHandler: (() -> Void)?
+    var successHandler: (() -> Void)?
     var errorHandler: ((Error) -> Void)?
     
     func writeToPhotoAlbum(image: UIImage) {
@@ -19,7 +19,7 @@ class ImageSaver: NSObject {
         if let error = error {
             errorHandler?(error)
         } else {
-            succesHandler?()
+            successHandler?()
         }
     }
 }

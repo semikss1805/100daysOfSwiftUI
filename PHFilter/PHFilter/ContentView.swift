@@ -21,7 +21,7 @@ struct ContentView: View {
     @State private var processedImage: UIImage?
     @State private var showingImagePicker = false
     
-    @State private var filterIntesity = 0.5
+    @State private var filterIntensity = 0.5
     @State private var currentFilter: CIFilter = CIFilter.sepiaTone()
     private let context = CIContext()
     
@@ -50,8 +50,8 @@ struct ContentView: View {
             
             HStack {
                 Text("Intensity")
-                Slider(value: $filterIntesity)
-                    .onChange(of: filterIntesity) { _ in
+                Slider(value: $filterIntensity)
+                    .onChange(of: filterIntensity) { _ in
                         applyProcessing()
                     }
             }
@@ -100,7 +100,7 @@ struct ContentView: View {
 
         let imageSaver = ImageSaver()
         
-        imageSaver.succesHandler = {
+        imageSaver.successHandler = {
             toast = FancyToast(type: .success, title: "Success", message: "Saving succeed")
         }
         
@@ -115,13 +115,13 @@ struct ContentView: View {
         let inputKays = currentFilter.inputKeys
         
         if inputKays.contains(kCIInputIntensityKey) {
-            currentFilter.setValue(filterIntesity, forKey: kCIInputIntensityKey)
+            currentFilter.setValue(filterIntensity, forKey: kCIInputIntensityKey)
         }
         if inputKays.contains(kCIInputRadiusKey) {
-            currentFilter.setValue(filterIntesity * 200, forKey: kCIInputRadiusKey)
+            currentFilter.setValue(filterIntensity * 200, forKey: kCIInputRadiusKey)
         }
         if inputKays.contains(kCIInputScaleKey ) {
-            currentFilter.setValue(filterIntesity * 10, forKey: kCIInputScaleKey)
+            currentFilter.setValue(filterIntensity * 10, forKey: kCIInputScaleKey)
         }
         
         guard let outputImage = currentFilter.outputImage else { return }
