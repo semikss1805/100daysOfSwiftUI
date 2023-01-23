@@ -1,0 +1,39 @@
+PODS:
+  - Alamofire (5.6.4)
+  - Moya (15.0.0):
+    - Moya/Core (= 15.0.0)
+  - Moya/Combine (15.0.0):
+    - Moya/Core
+  - Moya/Core (15.0.0):
+    - Alamofire (~> 5.0)
+  - Moya/ReactiveSwift (15.0.0):
+    - Moya/Core
+    - ReactiveSwift (~> 6.6.1)
+  - Moya/RxSwift (15.0.0):
+    - Moya/Core
+    - RxSwift (~> 6.0)
+  - ReactiveSwift (6.6.1)
+  - RxSwift (6.5.0)
+
+DEPENDENCIES:
+  - Moya (~> 15.0)
+  - Moya/Combine (~> 15.0)
+  - Moya/ReactiveSwift (~> 15.0)
+  - Moya/RxSwift (~> 15.0)
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - Moya
+    - ReactiveSwift
+    - RxSwift
+
+SPEC CHECKSUMS:
+  Alamofire: 4e95d97098eacb88856099c4fc79b526a299e48c
+  Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
+  ReactiveSwift: fab34244ad908808dc822bae352a058c8837c4ca
+  RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
+
+PODFILE CHECKSUM: 680973db7bd366100dd4b059a0a5be6bd13ce412
+
+COCOAPODS: 1.11.2
