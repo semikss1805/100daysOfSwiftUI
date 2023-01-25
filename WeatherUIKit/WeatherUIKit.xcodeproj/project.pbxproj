@@ -17,8 +17,6 @@
 		A67BAE29297EC47100DCE94B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A67BAE28297EC47100DCE94B /* Assets.xcassets */; };
 		A67BAE2C297EC47100DCE94B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A67BAE2A297EC47100DCE94B /* LaunchScreen.storyboard */; };
 		A67BAE37297EC47100DCE94B /* WeatherUIKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A67BAE36297EC47100DCE94B /* WeatherUIKitTests.swift */; };
-		A67BAE41297EC47100DCE94B /* WeatherUIKitUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A67BAE40297EC47100DCE94B /* WeatherUIKitUITests.swift */; };
-		A67BAE43297EC47100DCE94B /* WeatherUIKitUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A67BAE42297EC47100DCE94B /* WeatherUIKitUITestsLaunchTests.swift */; };
 		A7FF12C3EE8B02C06999A579 /* Pods_WeatherUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F04E01F23629138C3D2B2E2E /* Pods_WeatherUIKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -57,8 +55,6 @@
 		A67BAE32297EC47100DCE94B /* WeatherUIKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherUIKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A67BAE36297EC47100DCE94B /* WeatherUIKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherUIKitTests.swift; sourceTree = "<group>"; };
 		A67BAE3C297EC47100DCE94B /* WeatherUIKitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherUIKitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		A67BAE40297EC47100DCE94B /* WeatherUIKitUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherUIKitUITests.swift; sourceTree = "<group>"; };
-		A67BAE42297EC47100DCE94B /* WeatherUIKitUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherUIKitUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		A83B276EE2818EECFB1B4524 /* Pods-WeatherUIKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherUIKit.release.xcconfig"; path = "Target Support Files/Pods-WeatherUIKit/Pods-WeatherUIKit.release.xcconfig"; sourceTree = "<group>"; };
 		B8D6B1DE8E25B522799FC844 /* Pods-WeatherUIKit-WeatherUIKitUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherUIKit-WeatherUIKitUITests.release.xcconfig"; path = "Target Support Files/Pods-WeatherUIKit-WeatherUIKitUITests/Pods-WeatherUIKit-WeatherUIKitUITests.release.xcconfig"; sourceTree = "<group>"; };
 		F04E01F23629138C3D2B2E2E /* Pods_WeatherUIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeatherUIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,7 +94,6 @@
 			children = (
 				A67BAE1B297EC46B00DCE94B /* WeatherUIKit */,
 				A67BAE35297EC47100DCE94B /* WeatherUIKitTests */,
-				A67BAE3F297EC47100DCE94B /* WeatherUIKitUITests */,
 				A67BAE1A297EC46B00DCE94B /* Products */,
 				D5AB4484340EE84D253D609F /* Pods */,
 				E6FE4A857161B54816297593 /* Frameworks */,
@@ -138,15 +133,6 @@
 			path = WeatherUIKitTests;
 			sourceTree = "<group>";
 		};
-		A67BAE3F297EC47100DCE94B /* WeatherUIKitUITests */ = {
-			isa = PBXGroup;
-			children = (
-				A67BAE40297EC47100DCE94B /* WeatherUIKitUITests.swift */,
-				A67BAE42297EC47100DCE94B /* WeatherUIKitUITestsLaunchTests.swift */,
-			);
-			path = WeatherUIKitUITests;
-			sourceTree = "<group>";
-		};
 		D5AB4484340EE84D253D609F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -157,7 +143,6 @@
 				2B2A82EC5599E60DAE685F6A /* Pods-WeatherUIKitTests.debug.xcconfig */,
 				07B3F0D16C6691AA5F5F2877 /* Pods-WeatherUIKitTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -429,8 +414,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A67BAE43297EC47100DCE94B /* WeatherUIKitUITestsLaunchTests.swift in Sources */,
-				A67BAE41297EC47100DCE94B /* WeatherUIKitUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
