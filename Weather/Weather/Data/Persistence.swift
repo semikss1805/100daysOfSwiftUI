@@ -14,13 +14,13 @@ enum ModelName: String {
 
 // read about dependency injection
 
-// read about principes: DRY, YAGNI, KISS, SOLID
+// read about principles: DRY, YAGNI, KISS, SOLID
 
 struct PersistenceController {
     
     static let shared = PersistenceController()
     
-    typealias ErrorComplition = (Error?) -> ()
+    typealias ErrorCompletion = (Error?) -> ()
     
     let container: NSPersistentContainer
     
@@ -35,7 +35,7 @@ struct PersistenceController {
         self.container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
     }
     
-    func save(completion: @escaping ErrorComplition = {_ in}) {
+    func save(completion: @escaping ErrorCompletion = {_ in}) {
         let context = container.viewContext
         if context.hasChanges {
             do {
@@ -47,7 +47,7 @@ struct PersistenceController {
         }
     }
     
-    func delete(_ object: NSManagedObject, completion: @escaping ErrorComplition = {_ in}) {
+    func delete(_ object: NSManagedObject, completion: @escaping ErrorCompletion = {_ in}) {
         let context = container.viewContext
         context.delete(object)
         save(completion: completion)
