@@ -28,7 +28,7 @@ struct LocationRequestView: View {
                 Spacer()
                 
                 Button {
-                    print("Request lacation from user")
+                    print("Request location from user")
                     LocationManager.shared.requestLocation()
                 } label: {
                     Text("Allow location")
