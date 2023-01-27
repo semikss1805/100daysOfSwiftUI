@@ -50,7 +50,7 @@ struct ContentView: View {
             
             HStack {
                 Text("Intensity")
-                Slider(value: $filterIntensity)
+                Slider(value: $filterIntensity, in: 0.01...1)
                     .onChange(of: filterIntensity) { _ in
                         applyProcessing()
                     }
@@ -97,7 +97,7 @@ struct ContentView: View {
     
     func saveImage() {
         guard let processedImage = processedImage else { return }
-
+        
         let imageSaver = ImageSaver()
         
         imageSaver.successHandler = {
@@ -112,20 +112,26 @@ struct ContentView: View {
     }
     
     func applyProcessing() {
-        let inputKays = currentFilter.inputKeys
+        let inputKeys = currentFilter.inputKeys
         
-        if inputKays.contains(kCIInputIntensityKey) {
+        if inputKeys.contains(kCIInputIntensityKey) {
             currentFilter.setValue(filterIntensity, forKey: kCIInputIntensityKey)
         }
-        if inputKays.contains(kCIInputRadiusKey) {
+        
+        if inputKeys.contains(kCIInputRadiusKey) {
             currentFilter.setValue(filterIntensity * 200, forKey: kCIInputRadiusKey)
         }
-        if inputKays.contains(kCIInputScaleKey ) {
+        
+        if inputKeys.contains(kCIInputScaleKey) {
             currentFilter.setValue(filterIntensity * 10, forKey: kCIInputScaleKey)
         }
         
+        if inputKeys.contains(kCIInputCenterKey) {
+            currentFilter.setValue(CIVector(x: inputImage!.size.width / 2, y: inputImage!.size.height / 2), forKey: kCIInputCenterKey)
+        }
+        
         guard let outputImage = currentFilter.outputImage else { return }
-         
+        
         if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
             let uiImage = UIImage(cgImage: cgimg)
             image = Image(uiImage: uiImage)
@@ -133,14 +139,15 @@ struct ContentView: View {
         }
     }
     
+    
     func setFilter(_ filter: CIFilter) {
         currentFilter = filter
         loadImage()
     }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+    
+    struct ContentView_Previews: PreviewProvider {
+        static var previews: some View {
+            ContentView()
+        }
     }
 }
