@@ -11,11 +11,11 @@ class WeatherForecastCell: UICollectionViewCell {
     
     
     @IBOutlet var forecastImage: UIImageView!
-    @IBOutlet var forecastDay: UILabel!
+    @IBOutlet var forecastLabel: UILabel!
     
-    func configure(day: String, image: String) {
+    func configure(text: String, image: String) {
         forecastImage.image = UIImage(named: image)
-        forecastDay.text = day
+        forecastLabel.text = text
         
     }
     

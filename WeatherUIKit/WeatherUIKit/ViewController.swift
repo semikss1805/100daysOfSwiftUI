@@ -6,11 +6,12 @@
 //
 
 import Moya
-import Foundation
 import UIKit
 
 class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
+    @IBOutlet var currentWeatherImage: UIImageView!
+    @IBOutlet var currentWeatherTextView: UITextView!
     @IBOutlet var collectionView: UICollectionView!
     
     private typealias ConcurrencyTask = _Concurrency.Task
@@ -29,16 +30,17 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
         navigationController?.setNavigationBarHidden(true, animated: true)
         
         self.updateData()
-        
         self.fetchData()
+        
+        setCurrentWeatherData()
         
         collectionView.delegate = self
         collectionView.dataSource = self
-        super.viewDidLoad()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -59,8 +61,8 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifier.WeatherForecastCell.rawValue, for: indexPath) as! WeatherForecastCell
-        if let forecast = day?[indexPath.item] {
-            cell.configure(day: forecast.wrappedDay, image: forecast.averageWeather)
+        if let day = day?[indexPath.item] {
+            cell.configure(text: day.wrappedDay, image: day.averageWeather)
         }
         
         return cell
@@ -68,12 +70,20 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let index = indexPath.item
-        if let detailVC = storyboard?.instantiateViewController(withIdentifier: Identifier.DetailViewController.rawValue) as? DetailViewController {
-            detailVC.name = day?[index].day
+        if let detailVC = storyboard?.instantiateViewController(withIdentifier: Identifier.DetailViewController.rawValue) as? DetailViewController,
+           let day = day?[index]{
+            detailVC.configure(day: day)
             
             navigationController?.pushViewController(detailVC, animated: true)
         }
         
+    }
+    
+    func setCurrentWeatherData() {
+        let currentWeatherDescription = "\(currentWeather?.last?.name ?? ""), \(currentWeather?.last?.day ?? "")"
+        
+        currentWeatherImage.image = UIImage(named: currentWeather?.first?.weather ?? "")
+        currentWeatherTextView.text = currentWeatherDescription
     }
     
     func updateData() {
