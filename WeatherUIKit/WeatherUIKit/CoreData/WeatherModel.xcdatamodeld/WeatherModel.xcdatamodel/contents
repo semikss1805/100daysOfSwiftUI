@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="20G165" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="CurrentWeather" representedClassName="CurrentWeather" syncable="YES" codeGenerationType="class">
+        <attribute name="day" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="unixTime" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="weather" attributeType="String"/>
+    </entity>
+    <entity name="Day" representedClassName="Day" syncable="YES">
+        <attribute name="day" attributeType="String"/>
+        <attribute name="dayNumber" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="weatherForecast" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WeatherForecast" inverseName="relatedDay" inverseEntity="WeatherForecast"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="day"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="WeatherForecast" representedClassName="WeatherForecast" syncable="YES">
+        <attribute name="maxTemp" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="minTemp" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="temp" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="tempFeelsLike" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="unixTime" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="weather" attributeType="String"/>
+        <relationship name="relatedDay" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Day" inverseName="weatherForecast" inverseEntity="Day"/>
+    </entity>
+    <elements>
+        <element name="CurrentWeather" positionX="-63" positionY="-18" width="128" height="89"/>
+        <element name="WeatherForecast" positionX="-54" positionY="18" width="128" height="134"/>
+        <element name="Day" positionX="-36" positionY="27" width="128" height="74"/>
+    </elements>
+</model>

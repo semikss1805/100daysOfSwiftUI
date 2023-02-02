@@ -1,0 +1,52 @@
+//
+//  Persistence.swift
+//  WeatherUIKit
+//
+//  Created by Denys Polishchuk on 31.01.2023.
+//
+
+import CoreData
+
+enum ModelName: String {
+    case weather = "WeatherModel"
+    // ...
+}
+
+struct PersistenceController {
+    
+    static let shared = PersistenceController()
+    
+    typealias ErrorCompletion = (Error?) -> ()
+    
+    let container: NSPersistentContainer
+    
+    init() {
+        container = NSPersistentContainer(name: ModelName.weather.rawValue)
+        container.loadPersistentStores {(description, error) in
+            if let error = error {
+                fatalError("Error: \(error.localizedDescription)")
+            }
+        }
+        
+        self.container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+    }
+    
+    func save(completion: @escaping ErrorCompletion = {_ in}) {
+        let context = container.viewContext
+        if context.hasChanges {
+            do {
+                try context.save()
+                completion(nil)
+            } catch {
+                completion(error)
+            }
+        }
+    }
+    
+    func delete(_ object: NSManagedObject, completion: @escaping ErrorCompletion = {_ in}) {
+        let context = container.viewContext
+        context.delete(object)
+        save(completion: completion)
+    }
+}
+
