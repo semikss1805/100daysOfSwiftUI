@@ -8,7 +8,12 @@
 import Foundation
 import CoreData
 
+extension Notification.Name {
+    static let dataChanged = Notification.Name("dataChanged")
+}
+
 final class WeatherDataManager {
+    
     private let managedObjectContext = PersistenceController.shared.container.viewContext
     
     private let openWeatherManager = OpenWeatherManager()
@@ -70,8 +75,8 @@ final class WeatherDataManager {
             
             self?.contextSave()
         }
-        // ARC, DispatchQueue(group, main, separate thread etc), strong ref cycle, Heap/Stack
-        // CIImage/CIFilter
+        
+        clearEmptyDays()
     }
     
     
@@ -80,6 +85,25 @@ final class WeatherDataManager {
         
         for weatherForecast in weatherForecast {
             managedObjectContext.delete(weatherForecast)
+        }
+    }
+    
+    private func postChanges() {
+        NotificationCenter.default.post(name: .dataChanged, object: self)
+    }
+    
+    private func clearEmptyDays() {
+        do {
+            let days = try managedObjectContext.fetch(Day.fetchRequest())
+            
+            for day in days {
+                if day.weatherForecastArray.isEmpty {
+                    managedObjectContext.delete(day)
+                    contextSave()
+                }
+            }
+        } catch {
+            debugPrint(error.localizedDescription)
         }
     }
     
@@ -94,6 +118,7 @@ final class WeatherDataManager {
     func updateLocalData() async throws {
         try await updateLocalCurrentWeather()
         try await updateLocalWeatherForecast()
+        postChanges()
     }
 }
 

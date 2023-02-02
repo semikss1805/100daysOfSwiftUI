@@ -18,4 +18,6 @@ class WeatherForecastCell: UICollectionViewCell {
         forecastDay.text = day
         
     }
+    
+    
 }

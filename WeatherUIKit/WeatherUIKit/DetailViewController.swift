@@ -9,10 +9,20 @@ import UIKit
 
 class DetailViewController: UIViewController {
     
-//    var forecast: ForecastData?
+    @IBOutlet var textView: UITextView!
+    
+    var name: String?
     
     override func viewDidLoad() {
+        navigationController?.setNavigationBarHidden(false, animated: true)
         super.viewDidLoad()
-        // display details of forecast
+        
+        title = name
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
 }
