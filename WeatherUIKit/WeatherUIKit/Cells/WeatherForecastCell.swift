@@ -16,8 +16,11 @@ class WeatherForecastCell: UICollectionViewCell {
     func configure(text: String, image: String) {
         forecastImage.image = UIImage(named: image)
         forecastLabel.text = text
-        
     }
     
-    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        forecastImage.image = nil
+        forecastLabel.text = nil
+    }
 }

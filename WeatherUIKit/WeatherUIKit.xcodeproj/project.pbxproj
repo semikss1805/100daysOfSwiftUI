@@ -113,6 +113,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A6372CCD298D0CEC00EC019F /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				A67BAE20297EC46B00DCE94B /* ViewController.swift */,
+				A6D7CBAD298BF25E009B0AC3 /* DetailViewController.swift */,
+				A6D7CB8729894FFF009B0AC3 /* LocationViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		A6372CCE298D0D1A00EC019F /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				A6D7CBAB298A6564009B0AC3 /* WeatherForecastCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		A6372CCF298D0D2F00EC019F /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				A67BAE1C297EC46B00DCE94B /* AppDelegate.swift */,
+				A67BAE1E297EC46B00DCE94B /* SceneDelegate.swift */,
+			);
+			path = Delegate;
+			sourceTree = "<group>";
+		};
 		A67BAE10297EC46B00DCE94B = {
 			isa = PBXGroup;
 			children = (
@@ -137,19 +164,16 @@
 		A67BAE1B297EC46B00DCE94B /* WeatherUIKit */ = {
 			isa = PBXGroup;
 			children = (
+				A6372CCF298D0D2F00EC019F /* Delegate */,
+				A6372CCE298D0D1A00EC019F /* Cells */,
+				A6372CCD298D0CEC00EC019F /* Controller */,
 				A6D7CB8C29895FE3009B0AC3 /* CoreData */,
 				A6D7CB7E29882AB7009B0AC3 /* Network */,
 				A6D7CB7B2988167D009B0AC3 /* Location */,
-				A67BAE1C297EC46B00DCE94B /* AppDelegate.swift */,
-				A67BAE1E297EC46B00DCE94B /* SceneDelegate.swift */,
-				A67BAE20297EC46B00DCE94B /* ViewController.swift */,
 				A67BAE22297EC46B00DCE94B /* Main.storyboard */,
-				A6D7CB8729894FFF009B0AC3 /* LocationViewController.swift */,
 				A67BAE28297EC47100DCE94B /* Assets.xcassets */,
 				A67BAE2A297EC47100DCE94B /* LaunchScreen.storyboard */,
 				A67BAE2D297EC47100DCE94B /* Info.plist */,
-				A6D7CBAB298A6564009B0AC3 /* WeatherForecastCell.swift */,
-				A6D7CBAD298BF25E009B0AC3 /* DetailViewController.swift */,
 			);
 			path = WeatherUIKit;
 			sourceTree = "<group>";

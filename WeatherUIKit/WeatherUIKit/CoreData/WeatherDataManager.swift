@@ -74,9 +74,9 @@ final class WeatherDataManager {
             }
             
             self?.contextSave()
+            
+            self?.clearEmptyDays()
         }
-        
-        clearEmptyDays()
     }
     
     
@@ -88,16 +88,12 @@ final class WeatherDataManager {
         }
     }
     
-    private func postChanges() {
-        NotificationCenter.default.post(name: .dataChanged, object: self)
-    }
-    
     private func clearEmptyDays() {
         do {
             let days = try managedObjectContext.fetch(Day.fetchRequest())
             
             for day in days {
-                if day.weatherForecastArray.isEmpty {
+                if day.weatherForecastArray.isEmpty || day.day == nil{
                     managedObjectContext.delete(day)
                     contextSave()
                 }
@@ -118,7 +114,6 @@ final class WeatherDataManager {
     func updateLocalData() async throws {
         try await updateLocalCurrentWeather()
         try await updateLocalWeatherForecast()
-        postChanges()
     }
 }
 

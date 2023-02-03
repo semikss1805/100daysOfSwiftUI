@@ -34,9 +34,10 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         navigationController?.setNavigationBarHidden(true, animated: true)
         
-        self.updateData()
-        self.fetchData()
-        
+        updateData()
+        fetchData() {
+            collectionView.reloadData()
+        }
         setCurrentWeatherData()
         
         collectionView.delegate = self
@@ -46,7 +47,6 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(fetchData), name: .dataChanged, object: weatherDataManager)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -61,6 +61,9 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifier.WeatherForecastCell.rawValue, for: indexPath) as! WeatherForecastCell
+        
+        cell.prepareForReuse()
+        
         if let day = day?[indexPath.item] {
             cell.configure(text: day.wrappedDay, image: day.averageWeather)
         }
@@ -90,23 +93,23 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         ConcurrencyTask {
             do {
                 try await weatherDataManager.updateLocalData()
-                
             } catch {
                 debugPrint(error.localizedDescription)
             }
         }
     }
     
-    @objc func fetchData() {
+    func fetchData(completion: () -> Void) {
         do {
             day = try managedObjectContext.fetch(Day.fetchRequest()).sorted(by: { $0.dayNumber < $1.dayNumber})
             weatherForecast = try managedObjectContext.fetch(WeatherForecast.fetchRequest()).sorted(by: { $0.unixTime < $1.unixTime})
             currentWeather = try managedObjectContext.fetch(CurrentWeather.fetchRequest())
-            
             debugPrint(weatherForecast)
         } catch {
             debugPrint(error.localizedDescription)
         }
+        
+        completion()
     }
 }
 
