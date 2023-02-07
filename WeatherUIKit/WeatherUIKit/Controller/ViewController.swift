@@ -7,9 +7,12 @@
 
 import Moya
 import UIKit
+import SwiftUI
 
 class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
+    
+    @IBOutlet var loadingText: UILabel!
     @IBOutlet var currentWeatherImage: UIImageView!
     @IBOutlet var currentWeatherTextView: UITextView!
     @IBOutlet var collectionView: UICollectionView!
@@ -34,11 +37,11 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         navigationController?.setNavigationBarHidden(true, animated: true)
         
-        updateData()
-        fetchData() {
-            collectionView.reloadData()
+        updateData {
+            self.fetchData()
+            self.setCurrentWeatherData()
+            self.collectionView.reloadData()
         }
-        setCurrentWeatherData()
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -46,6 +49,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         
     }
     
@@ -89,17 +93,22 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         currentWeatherTextView.text = currentWeatherDescription
     }
     
-    func updateData() {
+    func updateData(completion: @escaping () -> Void) {
         ConcurrencyTask {
             do {
                 try await weatherDataManager.updateLocalData()
+                
+                loadingText.isHidden = true
             } catch {
+                loadingText.text = "Update Failed"
                 debugPrint(error.localizedDescription)
             }
+            
+            completion()
         }
     }
     
-    func fetchData(completion: () -> Void) {
+    func fetchData() {
         do {
             day = try managedObjectContext.fetch(Day.fetchRequest()).sorted(by: { $0.dayNumber < $1.dayNumber})
             weatherForecast = try managedObjectContext.fetch(WeatherForecast.fetchRequest()).sorted(by: { $0.unixTime < $1.unixTime})
@@ -108,8 +117,6 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         } catch {
             debugPrint(error.localizedDescription)
         }
-        
-        completion()
     }
 }
 
