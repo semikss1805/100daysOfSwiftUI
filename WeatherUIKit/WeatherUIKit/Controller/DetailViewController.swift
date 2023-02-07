@@ -7,13 +7,13 @@
 
 import UIKit
 
-class DetailViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class DetailViewController: UIViewController {
     
     @IBOutlet var collectionView: UICollectionView!
     
-    private var day: Day?
+    private var hourlyWeatherForecastDataSource: HourlyWeatherForecastDataSource?
     
-    private let weatherForecastCellIdentifier = "WeatherForecastCell"
+    private var day: Day?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,8 +22,9 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
         
         title = day?.day
         
-        collectionView.delegate = self
-        collectionView.dataSource = self
+        hourlyWeatherForecastDataSource = HourlyWeatherForecastDataSource(collectionView: collectionView, day: day)
+        
+        collectionView.dataSource = hourlyWeatherForecastDataSource
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -34,26 +35,5 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
     
     func configure(day: Day) {
         self.day = day
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return day?.weatherForecastArray.count ?? 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let index = indexPath.item
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: weatherForecastCellIdentifier, for: indexPath) as! WeatherForecastCell
-        
-        cell.prepareForReuse()
-        
-        if let relatedForecast = day?.weatherForecastArray[index] {
-            let date = Date(timeIntervalSince1970: TimeInterval(relatedForecast.unixTime + 6400))
-            let hour = date.formatted(.dateTime.hour(.twoDigits(amPM: .abbreviated)))
-            
-            cell.configure(text: hour, image: relatedForecast.weather)
-        }
-        
-        return cell
     }
 }

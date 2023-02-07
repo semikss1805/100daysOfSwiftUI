@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class WeatherForecastDataSource: NSObject {
+final class DailyWeatherForecastDataSource: NSObject {
     
     internal weak var collectionView: UICollectionView?
     
@@ -31,7 +31,7 @@ final class WeatherForecastDataSource: NSObject {
     }
 }
 
-extension WeatherForecastDataSource: UICollectionViewDataSource {
+extension DailyWeatherForecastDataSource: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         days?.count ?? 0
     }
@@ -49,7 +49,7 @@ extension WeatherForecastDataSource: UICollectionViewDataSource {
     }
 }
 
-extension WeatherForecastDataSource: UICollectionViewDelegate {
+extension DailyWeatherForecastDataSource: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let index = indexPath.item
         if let detailVC = storyboard?.instantiateViewController(withIdentifier: Identifier.DetailViewController.rawValue) as? DetailViewController,

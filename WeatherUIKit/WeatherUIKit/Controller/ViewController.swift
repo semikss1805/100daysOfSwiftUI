@@ -9,13 +9,15 @@ import Moya
 import UIKit
 import SwiftUI
 
-class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class ViewController: UIViewController {
     
-    
-    @IBOutlet var loadingText: UILabel!
-    @IBOutlet var currentWeatherImage: UIImageView!
-    @IBOutlet var currentWeatherTextView: UITextView!
     @IBOutlet var collectionView: UICollectionView!
+    
+    @IBOutlet private var loadingText: UILabel!
+    @IBOutlet private var currentWeatherImage: UIImageView!
+    @IBOutlet private var currentWeatherTextView: UITextView!
+    
+    private var dailyWeatherForecastDataSource: DailyWeatherForecastDataSource?
     
     private typealias ConcurrencyTask = _Concurrency.Task
     
@@ -37,52 +39,23 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         navigationController?.setNavigationBarHidden(true, animated: true)
         
-        updateData {
-            self.fetchData()
-            self.setCurrentWeatherData()
-            self.collectionView.reloadData()
+        updateData { [self] in
+            fetchData()
+            setCurrentWeatherData()
+            dailyWeatherForecastDataSource = DailyWeatherForecastDataSource(collectionView: collectionView, navigationController: navigationController, storyboard: storyboard, days: day)
+
+            collectionView.delegate = dailyWeatherForecastDataSource
+            collectionView.dataSource = dailyWeatherForecastDataSource
         }
-        
-        collectionView.delegate = self
-        collectionView.dataSource = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
-        NotificationCenter.default.removeObserver(self)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return day?.count ?? 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifier.WeatherForecastCell.rawValue, for: indexPath) as! WeatherForecastCell
-        
-        cell.prepareForReuse()
-        
-        if let day = day?[indexPath.item] {
-            cell.configure(text: day.wrappedDay, image: day.averageWeather)
-        }
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let index = indexPath.item
-        if let detailVC = storyboard?.instantiateViewController(withIdentifier: Identifier.DetailViewController.rawValue) as? DetailViewController,
-           let day = day?[index]{
-            detailVC.configure(day: day)
-            
-            navigationController?.pushViewController(detailVC, animated: true)
-        }
         
     }
     
@@ -117,6 +90,10 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         } catch {
             debugPrint(error.localizedDescription)
         }
+    }
+    
+    func getDays() -> [Day]? {
+        day
     }
 }
 
