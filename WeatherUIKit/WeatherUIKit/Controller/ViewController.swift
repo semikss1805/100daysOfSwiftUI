@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     @IBOutlet private var currentWeatherImage: UIImageView!
     @IBOutlet private var currentWeatherTextView: UITextView!
     
-    private var dailyWeatherForecastDataSource: DailyWeatherForecastDataSource?
+    private var weatherForecastPresenter = WeatherForecastPresenter()
     
     private typealias ConcurrencyTask = _Concurrency.Task
     
@@ -42,10 +42,7 @@ class ViewController: UIViewController {
         updateData { [self] in
             fetchData()
             setCurrentWeatherData()
-            dailyWeatherForecastDataSource = DailyWeatherForecastDataSource(collectionView: collectionView, navigationController: navigationController, storyboard: storyboard, days: day)
-
-            collectionView.delegate = dailyWeatherForecastDataSource
-            collectionView.dataSource = dailyWeatherForecastDataSource
+            weatherForecastPresenter.setDailyDataSource(collectionView: collectionView, navigationController: navigationController, storyboard: storyboard, days: day)
         }
     }
     

@@ -10,8 +10,8 @@ import UIKit
 class DetailViewController: UIViewController {
     
     @IBOutlet var collectionView: UICollectionView!
-    
-    private var hourlyWeatherForecastDataSource: HourlyWeatherForecastDataSource?
+
+    private var weatherForecastPresenter = WeatherForecastPresenter()
     
     private var day: Day?
     
@@ -21,10 +21,8 @@ class DetailViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
         
         title = day?.day
-        
-        hourlyWeatherForecastDataSource = HourlyWeatherForecastDataSource(collectionView: collectionView, day: day)
-        
-        collectionView.dataSource = hourlyWeatherForecastDataSource
+
+        weatherForecastPresenter.setHourlyDataSource(collectionView: collectionView, day: day)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
