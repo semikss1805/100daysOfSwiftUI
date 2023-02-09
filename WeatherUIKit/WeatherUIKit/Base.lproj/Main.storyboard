@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="NfR-WR-oEO">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
@@ -12,7 +12,7 @@
         <!--Location View Controller-->
         <scene sceneID="Zc2-9J-tED">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="kTV-dN-cJw" customClass="LocationViewController" customModule="WeatherUIKit" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LocationViewController" modalPresentationStyle="fullScreen" id="kTV-dN-cJw" customClass="LocationViewController" customModule="WeatherUIKit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="OVi-44-d9H">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -31,11 +31,11 @@
                                     <color key="baseForegroundColor" systemColor="systemBlueColor"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <segue destination="fwD-DO-egm" kind="show" id="0io-Gv-lCe"/>
+                                    <action selector="showMainView:" destination="kTV-dN-cJw" eventType="touchUpInside" id="Utn-bG-hOM"/>
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="paperplane.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="J3d-Ov-LFF">
-                                <rect key="frame" x="32" y="144" width="350" height="199"/>
+                                <rect key="frame" x="32" y="100" width="350" height="199"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="fkh-xG-x3O"/>
                                 </constraints>
@@ -65,7 +65,7 @@
         <!--View Controller-->
         <scene sceneID="RhK-FT-nCr">
             <objects>
-                <viewController id="fwD-DO-egm" customClass="ViewController" customModule="WeatherUIKit" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainViewController" id="fwD-DO-egm" customClass="ViewController" customModule="WeatherUIKit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aPz-CF-uB3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -153,19 +153,16 @@
             </objects>
             <point key="canvasLocation" x="2143.4782608695655" y="-357.58928571428572"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Weather Navigation Controller-->
         <scene sceneID="Cs4-QY-O2c">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="NfR-WR-oEO" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="NavigationController" automaticallyAdjustsScrollViewInsets="NO" id="NfR-WR-oEO" customClass="WeatherNavigationController" customModule="WeatherUIKit" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="RM9-A1-MbA">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="kTV-dN-cJw" kind="relationship" relationship="rootViewController" id="0gC-vE-ZL7"/>
-                    </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SiF-zy-l4S" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

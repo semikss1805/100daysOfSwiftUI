@@ -9,7 +9,9 @@ import Moya
 import UIKit
 import SwiftUI
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, VIPERView {
+    var presenter: Presenter?
+    
     
     @IBOutlet var collectionView: UICollectionView!
     
@@ -17,80 +19,27 @@ class ViewController: UIViewController {
     @IBOutlet private var currentWeatherImage: UIImageView!
     @IBOutlet private var currentWeatherTextView: UITextView!
     
-    private var weatherForecastPresenter = WeatherForecastPresenter()
-    
-    private typealias ConcurrencyTask = _Concurrency.Task
-    
-    private let weatherDataManager = WeatherDataManager()
-    
-    private let managedObjectContext = PersistenceController.shared.container.viewContext
-    
-    private var day: [Day]?
-    private var weatherForecast: [WeatherForecast]?
-    private var currentWeather: [CurrentWeather]?
-    
-    private enum Identifier: String {
-        case DetailViewController
-        case WeatherForecastCell
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationController?.setNavigationBarHidden(true, animated: true)
         
-        updateData { [self] in
-            fetchData()
-            setCurrentWeatherData()
-            weatherForecastPresenter.setDailyDataSource(collectionView: collectionView, navigationController: navigationController, storyboard: storyboard, days: day)
-        }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        presenter?.setDailyForecastDataSource(collectionView: collectionView )
         
+        presenter?.loadData()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
+    func setCurrentWeatherData(weather: String, weatherDescription: String) {
+        currentWeatherImage.image = UIImage(named: weather)
+        currentWeatherTextView.text = weatherDescription
     }
     
-    func setCurrentWeatherData() {
-        let currentWeatherDescription = "\(currentWeather?.last?.name ?? ""), \(currentWeather?.last?.day ?? "")"
-        
-        currentWeatherImage.image = UIImage(named: currentWeather?.first?.weather ?? "")
-        currentWeatherTextView.text = currentWeatherDescription
-    }
-    
-    func updateData(completion: @escaping () -> Void) {
-        ConcurrencyTask {
-            do {
-                try await weatherDataManager.updateLocalData()
-                
-                loadingText.isHidden = true
-            } catch {
-                loadingText.text = "Update Failed"
-                debugPrint(error.localizedDescription)
-            }
-            
-            completion()
+    func updateLoadingText(isSucceed: Bool) -> Void {
+        if isSucceed {
+            loadingText.isHidden = true
+        } else {
+            loadingText.text = "Update Failed"
         }
-    }
-    
-    func fetchData() {
-        do {
-            day = try managedObjectContext.fetch(Day.fetchRequest()).sorted(by: { $0.dayNumber < $1.dayNumber})
-            weatherForecast = try managedObjectContext.fetch(WeatherForecast.fetchRequest()).sorted(by: { $0.unixTime < $1.unixTime})
-            currentWeather = try managedObjectContext.fetch(CurrentWeather.fetchRequest())
-            debugPrint(weatherForecast)
-        } catch {
-            debugPrint(error.localizedDescription)
-        }
-    }
-    
-    func getDays() -> [Day]? {
-        day
     }
 }
 

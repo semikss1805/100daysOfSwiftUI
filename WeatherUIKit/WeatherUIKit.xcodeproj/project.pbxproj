@@ -19,6 +19,9 @@
 		A67BAE29297EC47100DCE94B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A67BAE28297EC47100DCE94B /* Assets.xcassets */; };
 		A67BAE2C297EC47100DCE94B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A67BAE2A297EC47100DCE94B /* LaunchScreen.storyboard */; };
 		A67BAE37297EC47100DCE94B /* WeatherUIKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A67BAE36297EC47100DCE94B /* WeatherUIKitTests.swift */; };
+		A68952CA2994FBC0005136CE /* WeatherForecastInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A68952C92994FBC0005136CE /* WeatherForecastInteractor.swift */; };
+		A68952CC2994FBF3005136CE /* WeatherForecastRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A68952CB2994FBF3005136CE /* WeatherForecastRouter.swift */; };
+		A68952D029950F4C005136CE /* WeatherNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A68952CF29950F4C005136CE /* WeatherNavigationController.swift */; };
 		A6D7CB7D298816C9009B0AC3 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D7CB7C298816C9009B0AC3 /* LocationManager.swift */; };
 		A6D7CB8029882ACC009B0AC3 /* OpenWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D7CB7F29882ACC009B0AC3 /* OpenWeather.swift */; };
 		A6D7CB8229882D70009B0AC3 /* OpenWeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D7CB8129882D70009B0AC3 /* OpenWeatherManager.swift */; };
@@ -72,6 +75,9 @@
 		A67BAE32297EC47100DCE94B /* WeatherUIKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherUIKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A67BAE36297EC47100DCE94B /* WeatherUIKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherUIKitTests.swift; sourceTree = "<group>"; };
 		A67BAE3C297EC47100DCE94B /* WeatherUIKitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherUIKitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A68952C92994FBC0005136CE /* WeatherForecastInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForecastInteractor.swift; sourceTree = "<group>"; };
+		A68952CB2994FBF3005136CE /* WeatherForecastRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForecastRouter.swift; sourceTree = "<group>"; };
+		A68952CF29950F4C005136CE /* WeatherNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherNavigationController.swift; sourceTree = "<group>"; };
 		A6D7CB7C298816C9009B0AC3 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		A6D7CB7F29882ACC009B0AC3 /* OpenWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeather.swift; sourceTree = "<group>"; };
 		A6D7CB8129882D70009B0AC3 /* OpenWeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherManager.swift; sourceTree = "<group>"; };
@@ -119,14 +125,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A611FDA529927DB600AB8BAA /* DataSource */ = {
+		A611FDA529927DB600AB8BAA /* WeatherForecastVIPER */ = {
 			isa = PBXGroup;
 			children = (
 				A6372CD029924A1000EC019F /* DailyWeatherForecastDataSource.swift */,
 				A611FDA12992755300AB8BAA /* HourlyWeatherForecastDataSource.swift */,
 				A611FDA6299286B100AB8BAA /* WeatherForecastPresenter.swift */,
+				A68952C92994FBC0005136CE /* WeatherForecastInteractor.swift */,
+				A68952CB2994FBF3005136CE /* WeatherForecastRouter.swift */,
 			);
-			path = DataSource;
+			path = WeatherForecastVIPER;
 			sourceTree = "<group>";
 		};
 		A6372CCD298D0CEC00EC019F /* Controller */ = {
@@ -135,6 +143,7 @@
 				A67BAE20297EC46B00DCE94B /* ViewController.swift */,
 				A6D7CBAD298BF25E009B0AC3 /* DetailViewController.swift */,
 				A6D7CB8729894FFF009B0AC3 /* LocationViewController.swift */,
+				A68952CF29950F4C005136CE /* WeatherNavigationController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -181,7 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				A6372CCF298D0D2F00EC019F /* Delegate */,
-				A611FDA529927DB600AB8BAA /* DataSource */,
+				A611FDA529927DB600AB8BAA /* WeatherForecastVIPER */,
 				A6372CCE298D0D1A00EC019F /* Cells */,
 				A6372CCD298D0CEC00EC019F /* Controller */,
 				A6D7CB8C29895FE3009B0AC3 /* CoreData */,
@@ -506,8 +515,11 @@
 				A6D7CB9E298964EB009B0AC3 /* WeatherModel.xcdatamodeld in Sources */,
 				A6D7CBAE298BF25E009B0AC3 /* DetailViewController.swift in Sources */,
 				A6D7CBAA29896817009B0AC3 /* Day+CoreDataProperties.swift in Sources */,
+				A68952CA2994FBC0005136CE /* WeatherForecastInteractor.swift in Sources */,
+				A68952CC2994FBF3005136CE /* WeatherForecastRouter.swift in Sources */,
 				A611FDA22992755300AB8BAA /* HourlyWeatherForecastDataSource.swift in Sources */,
 				A6D7CBA2298966A3009B0AC3 /* WeatherDataManager.swift in Sources */,
+				A68952D029950F4C005136CE /* WeatherNavigationController.swift in Sources */,
 				A67BAE21297EC46B00DCE94B /* ViewController.swift in Sources */,
 				A67BAE1D297EC46B00DCE94B /* AppDelegate.swift in Sources */,
 				A6D7CB7D298816C9009B0AC3 /* LocationManager.swift in Sources */,

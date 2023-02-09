@@ -8,26 +8,27 @@
 import UIKit
 
 final class DailyWeatherForecastDataSource: NSObject {
+    var presenter: Presenter?
     
-    internal weak var collectionView: UICollectionView?
+    private weak var collectionView: UICollectionView?
     
-    var storyboard: UIStoryboard?
-    var navigationController: UINavigationController?
-    
-    var days: [Day]?
+    private var days: [Day]?
     
     private enum Identifier: String {
         case DetailViewController
         case WeatherForecastCell
     }
     
-    init(collectionView: UICollectionView?, navigationController: UINavigationController?, storyboard: UIStoryboard?, days: [Day]?) {
+    init(collectionView: UICollectionView?) {
         self.collectionView = collectionView
-        self.navigationController = navigationController
-        self.storyboard = storyboard
-        self.days = days
         
         super.init()
+    }
+    
+    func reload(days: [Day]) {
+        self.days = days
+        
+        collectionView?.reloadData()
     }
 }
 
@@ -38,8 +39,6 @@ extension DailyWeatherForecastDataSource: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifier.WeatherForecastCell.rawValue, for: indexPath) as! WeatherForecastCell
-        
-        cell.prepareForReuse()
         
         if let day = days?[indexPath.item] {
             cell.configure(text: day.wrappedDay, image: day.averageWeather)
@@ -52,11 +51,9 @@ extension DailyWeatherForecastDataSource: UICollectionViewDataSource {
 extension DailyWeatherForecastDataSource: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let index = indexPath.item
-        if let detailVC = storyboard?.instantiateViewController(withIdentifier: Identifier.DetailViewController.rawValue) as? DetailViewController,
-           let day = days?[index]{
-            detailVC.configure(day: day)
-            
-            navigationController?.pushViewController(detailVC, animated: true)
+        
+        if let day = days?[index] {
+            presenter?.didSelectItem(day: day)
         }
     }
 }

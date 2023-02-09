@@ -7,7 +7,8 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, VIPERView {
+    var presenter: Presenter?
     
     @IBOutlet var collectionView: UICollectionView!
 
@@ -21,17 +22,13 @@ class DetailViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
         
         title = day?.day
-
-        weatherForecastPresenter.setHourlyDataSource(collectionView: collectionView, day: day)
+        
+        presenter?.setHourlyForecastDataSource(collectionView: collectionView)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         navigationController?.setNavigationBarHidden(true, animated: true)
-    }
-    
-    func configure(day: Day) {
-        self.day = day
     }
 }

@@ -7,15 +7,20 @@
 
 import UIKit
 
-class LocationViewController: UIViewController {
+class LocationViewController: UIViewController, VIPERView {
+    var presenter: Presenter?
+    
     @IBOutlet var requestButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         LocationManager.shared.requestLocation()
-        
-        
+    }
+    
+    
+    @IBAction func showMainView(_ sender: Any) {
+        presenter?.mainView()
     }
     
     /*

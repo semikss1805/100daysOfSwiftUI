@@ -8,15 +8,20 @@
 import UIKit
 
 final class HourlyWeatherForecastDataSource: NSObject {
-    internal weak var collectionView: UICollectionView?
+    private weak var collectionView: UICollectionView?
     
-    var day: Day?
+    private var day: Day?
     
     private let weatherForecastCellIdentifier = "WeatherForecastCell"
 
-    init(collectionView: UICollectionView?, day: Day?) {
+    init(collectionView: UICollectionView?) {
         self.collectionView = collectionView
+    }
+    
+    func reload(day: Day?) {
         self.day = day
+        
+        collectionView?.reloadData()
     }
 }
 
