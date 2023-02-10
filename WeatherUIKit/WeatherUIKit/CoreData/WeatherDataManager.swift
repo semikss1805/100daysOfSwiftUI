@@ -8,10 +8,6 @@
 import Foundation
 import CoreData
 
-extension Notification.Name {
-    static let dataChanged = Notification.Name("dataChanged")
-}
-
 final class WeatherDataManager {
     
     private let managedObjectContext = PersistenceController.shared.container.viewContext

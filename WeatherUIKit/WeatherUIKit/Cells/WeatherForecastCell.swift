@@ -7,11 +7,11 @@
 
 import UIKit
 
-class WeatherForecastCell: UICollectionViewCell {
+final class WeatherForecastCell: UICollectionViewCell {
     
     
-    @IBOutlet var forecastImage: UIImageView!
-    @IBOutlet var forecastLabel: UILabel!
+    @IBOutlet private var forecastImage: UIImageView!
+    @IBOutlet private var forecastLabel: UILabel!
     
     func configure(text: String, image: String) {
         forecastImage.image = UIImage(named: image)

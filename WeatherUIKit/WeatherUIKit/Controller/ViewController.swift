@@ -9,7 +9,7 @@ import Moya
 import UIKit
 import SwiftUI
 
-class ViewController: UIViewController, VIPERView {
+final class ViewController: UIViewController, VIPERView {
     var presenter: Presenter?
     
     

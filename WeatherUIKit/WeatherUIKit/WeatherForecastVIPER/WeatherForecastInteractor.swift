@@ -13,8 +13,8 @@ protocol Interactor {
     func loadData() -> Void
 }
 
-class WeatherForecastInteractor: Interactor {
-    internal var presenter: Presenter?
+final class WeatherForecastInteractor: Interactor {
+    var presenter: Presenter?
     
     private typealias ConcurrencyTask = _Concurrency.Task
     
@@ -24,7 +24,9 @@ class WeatherForecastInteractor: Interactor {
     
     func loadData() {
         updateData {
-            self.fetchData()
+            DispatchQueue.main.async {
+                self.fetchData()
+            }
         }
     }
     

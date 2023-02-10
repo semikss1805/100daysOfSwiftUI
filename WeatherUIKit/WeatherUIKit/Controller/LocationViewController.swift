@@ -7,10 +7,10 @@
 
 import UIKit
 
-class LocationViewController: UIViewController, VIPERView {
+final class LocationViewController: UIViewController, VIPERView {
     var presenter: Presenter?
     
-    @IBOutlet var requestButton: UIButton!
+    @IBOutlet private var requestButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()

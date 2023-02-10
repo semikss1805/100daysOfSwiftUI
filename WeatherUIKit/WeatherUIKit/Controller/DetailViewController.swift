@@ -7,10 +7,10 @@
 
 import UIKit
 
-class DetailViewController: UIViewController, VIPERView {
+final class DetailViewController: UIViewController, VIPERView {
     var presenter: Presenter?
     
-    @IBOutlet var collectionView: UICollectionView!
+    @IBOutlet private var collectionView: UICollectionView!
 
     private var weatherForecastPresenter = WeatherForecastPresenter()
     

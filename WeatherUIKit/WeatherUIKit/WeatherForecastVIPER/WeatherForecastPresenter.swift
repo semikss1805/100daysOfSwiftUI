@@ -21,7 +21,6 @@ protocol Presenter {
     
     func didCompleteLoading(isSucceed: Bool)
     func didCompleteFetch(weather: String, weatherDescription: String)
-    func didSelectItem(day: Day)
     
     func locationRequest()
     func mainView()
@@ -29,11 +28,11 @@ protocol Presenter {
 }
 
 final class WeatherForecastPresenter: Presenter {
-    internal var view: VIPERView?
+    var view: VIPERView?
     
-    internal var router: Router?
+    var router: Router?
     
-    internal var interactor: Interactor?
+    var interactor: Interactor?
     
     private weak var collectionView: UICollectionView?
     
@@ -46,7 +45,10 @@ final class WeatherForecastPresenter: Presenter {
     func setDailyForecastDataSource(collectionView: UICollectionView) {
         self.collectionView = collectionView
         
-        dailyDataSource.presenter = self
+        dailyDataSource.dayDidSelect = { [weak self] day in
+            self?.day = day
+            self?.detailView()
+        }
         
         collectionView.dataSource = dailyDataSource
         collectionView.delegate = dailyDataSource
@@ -84,12 +86,6 @@ final class WeatherForecastPresenter: Presenter {
         DispatchQueue.main.async {
             view.setCurrentWeatherData(weather: weather, weatherDescription: weatherDescription)
         }
-    }
-    
-    func didSelectItem(day: Day) {
-        self.day = day
-        
-        detailView()
     }
     
     func locationRequest() {

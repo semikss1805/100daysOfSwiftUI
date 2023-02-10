@@ -25,13 +25,13 @@ protocol Router {
 }
 
 final class WeatherForecastRouter: Router {
-    internal var presenter: Presenter?
+    var presenter: Presenter?
     
-    internal var interactor: Interactor?
+    var interactor: Interactor?
     
-    internal var storyboard: UIStoryboard?
+    var storyboard: UIStoryboard?
     
-    internal var navigationController: EntryPoint?
+    var navigationController: EntryPoint?
     
     var entry: EntryPoint?
     

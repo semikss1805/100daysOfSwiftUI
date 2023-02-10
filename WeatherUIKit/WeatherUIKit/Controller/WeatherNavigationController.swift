@@ -11,7 +11,7 @@ protocol VIPERView {
     var presenter: Presenter? { get set }
 }
 
-class WeatherNavigationController: UINavigationController, VIPERView {
+final class WeatherNavigationController: UINavigationController, VIPERView {
     var presenter: Presenter?
     
     override func viewDidLoad() {

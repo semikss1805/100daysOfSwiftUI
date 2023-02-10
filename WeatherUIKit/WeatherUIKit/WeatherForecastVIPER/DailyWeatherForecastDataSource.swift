@@ -8,7 +8,7 @@
 import UIKit
 
 final class DailyWeatherForecastDataSource: NSObject {
-    var presenter: Presenter?
+    var dayDidSelect: ((Day) -> Void)?
     
     private weak var collectionView: UICollectionView?
     
@@ -53,7 +53,8 @@ extension DailyWeatherForecastDataSource: UICollectionViewDelegate {
         let index = indexPath.item
         
         if let day = days?[index] {
-            presenter?.didSelectItem(day: day)
+            dayDidSelect?(day)
+
         }
     }
 }
